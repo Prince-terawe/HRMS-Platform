@@ -1,9 +1,6 @@
 const http = require('http');
 const connectDb = require('./Database/db');
 const port = 5000;
-const connectToMongo = require('./db');
-
-connectToMongo();
 
 
 connectDb();
