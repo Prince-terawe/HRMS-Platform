@@ -1,5 +1,9 @@
 const http = require('http');
 const port = 5000;
+const connectToMongo = require('./db');
+
+connectToMongo();
+
 
 const server = http.createServer((req, res)=>{
     console.log(req.url)
