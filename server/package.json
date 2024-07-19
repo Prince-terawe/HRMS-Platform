@@ -1,16 +1,17 @@
 {
-  "name": "terawe-hrms",
-  "version": "1.0.0",
-  "description": "Terawe-HRMS platform for leave managment of employee ",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Prince Kumar, Ankit Kumar",
-  "license": "ISC",
-  "dependencies": {
-    "express": "^4.19.2",
-    "mongodb": "^6.8.0",
-    "mongoose": "^8.5.1"
-  }
+    "name": "terawe-hrms",
+    "version": "1.0.0",
+    "description": "Terawe-HRMS platform for leave managment of employee ",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "dev": "nodemon index.js"
+    },
+    "author": "Prince Kumar, Ankit Kumar",
+    "license": "ISC",
+    "dependencies": {
+        "express": "^4.19.2",
+        "mongodb": "^6.8.0",
+        "mongoose": "^8.5.1"
+    }
 }
