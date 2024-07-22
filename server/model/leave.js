@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 const leaveSchema = new Schema({
     employeeId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee', // Assuming you have an Employee schema
+        ref: 'User', 
         required: true
     },
     leaveType: {
@@ -39,9 +39,9 @@ const leaveSchema = new Schema({
     approvedOn: {
         type: Date
     },
-    approverId: {
+    approverBy: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Employee' // Assuming the reviewer is also an employee
+        ref: 'User' 
     }
 }, {
     timestamps: true
