@@ -59,7 +59,6 @@ const userSchema = new mongoose.Schema({
         },
         lastName: {
             type: String,
-            required: true
         },
         profileImage: {
             type: String
@@ -70,7 +69,6 @@ const userSchema = new mongoose.Schema({
         },
         address: {
             type: String,
-            required: true
         },
         phoneNumber: {
             type: Number,
@@ -83,7 +81,6 @@ const userSchema = new mongoose.Schema({
     },
     hireDate: {
         type: Date,
-        default: Date.now,
         required: true
     }
 }, {
