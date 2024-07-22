@@ -2,12 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
-const {connectDb} = require('./Database/db'); // Your MongoDB connection file
-const userRoutes = require('./routes/api/user'); // Path to your user routes file
+const { connectDb } = require('./Database/db'); // Your MongoDB connection file
+const userRoutes = require('./routes/api/index'); // Path to your user routes file
 
 const app = express();
-
 // Middleware
+
+app.use(express.json());
 app.use(cors());
 app.use(bodyParser.json());
 

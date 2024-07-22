@@ -24,12 +24,12 @@ const userSchema = new Schema({
     },
     role: {
         type: String,
-        required: true,
         enum: ['Employee', 'Manager', 'Admin', 'HR'],
         default: 'Employee'
     },
     department: {
-        type: String
+        type: String,
+        required: true
     },
     manager: {
         type: mongoose.Schema.Types.ObjectId,
