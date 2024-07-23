@@ -7,10 +7,10 @@ const postUser = require('./postUser');
 const putUser = require('./putUser');
 const validateUser = require('./validateUser');
 
-router.use('/', getUsers);
+router.use('/getAllUsers', getUsers);
 router.use('/', getUserById);
-router.use('/', postUser);
-router.use('/', putUser);
-router.use('/', validateUser);
+router.use('/createUser', postUser);
+router.use('/updateUser', putUser);
+router.use('/validate', validateUser);
 
 module.exports = router;
