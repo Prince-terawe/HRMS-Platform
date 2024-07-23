@@ -2,9 +2,13 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const leaveSchema = new Schema({
-    employeeId: {
+    connectionId: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User', 
+        required: true
+    },
+    userId: {
+        type: String,
         required: true
     },
     leaveType: {
@@ -37,7 +41,7 @@ const leaveSchema = new Schema({
         default: Date.now
     },
     approvedOn: {
-        type: Date
+        type: Date,
     },
     approverBy: {
         type: mongoose.Schema.Types.ObjectId,
