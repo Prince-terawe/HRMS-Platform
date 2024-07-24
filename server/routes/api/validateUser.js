@@ -3,7 +3,7 @@ const User = require('./../../model/user');
 
 const router = express.Router();
 
-router.post('/validate', async (req, res) => {
+router.post('/', async (req, res) => {
     const { username, email, userId } = req.body;
 
     try {
