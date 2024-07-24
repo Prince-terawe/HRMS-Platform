@@ -2,9 +2,16 @@ const express = require('express');
 const router = express.Router();
 
 const leaveRequest = require('./leaveRequest')
-const cancelRequest = require('./cancelRequest');
+const allReq = require('./getAllReq')
+const reqById = require('./getReqById')
+const approveLeaveRoute = require('./approveLeave');
+const rejectLeave = require('./cancleLeave');
 
 router.use('/leaveRequest', leaveRequest);
-router.use('/cancelRequest', cancelRequest);
+router.use('/getAllLeaves', allReq);
+router.use('/', reqById);
+router.use('/approve', approveLeaveRoute);
+router.use('/reject', rejectLeave);
+
 
 module.exports = router;

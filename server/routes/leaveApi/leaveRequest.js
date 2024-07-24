@@ -22,7 +22,6 @@ router.post('/', async (req, res) => {
     }
 
     try {
-
         const user = await User.findOne({ userId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

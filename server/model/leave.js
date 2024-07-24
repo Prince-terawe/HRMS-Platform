@@ -43,9 +43,12 @@ const leaveSchema = new Schema({
     approvedOn: {
         type: Date,
     },
-    approverBy: {
-        type: mongoose.Schema.Types.ObjectId,
+    approvedBy: {
+        type: String,
         ref: 'User' 
+    },
+    rejectedBy: {
+        type: String,
     }
 }, {
     timestamps: true
