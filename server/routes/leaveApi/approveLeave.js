@@ -25,9 +25,9 @@ router.put('/:leaveId', authenticate, checkPermission('updateAny'), async (req, 
         await leave.save();
         res.json({ msg: 'Leave request approved successfully', leave });
     } catch (error) {
-        console.error('Error approving leave request:', error);
-        res.status(400).json({ error: 'Unable to approve leave request', details: error.message });
+      console.error('Error approving leave:', error);
+      res.status(500).json({ error: 'Unable to approve leave', details: error.message });
     }
-});
+  });  
 
 module.exports = router;
