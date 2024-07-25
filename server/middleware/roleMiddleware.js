@@ -5,6 +5,7 @@ const roles = require('../config/roles');
 const checkPermission = (permission) => {
     return async (req, res, next) => {
         const userId = req.userId; // Assumes the userId is set in req.userId by previous middleware (e.g., authentication middleware)
+        // const userId = req.body.userId;
         try {
             const user = await User.findById(userId);
             if (!user) {
