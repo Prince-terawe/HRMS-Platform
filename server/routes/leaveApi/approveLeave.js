@@ -6,26 +6,27 @@ const checkPermission = require('../../middleware/roleMiddleware');
 
 const router = express.Router();
 
-router.put('/:leaveId', checkPermission('updateAny'), async (req, res) => {
+router.put('/:id', checkPermission('approveLeave'), async (req, res) => {
     try {
-        const leaveId = req.params.leaveId;
-        const approverId = req.userId; // Assuming req.userId is set by authentication middleware
-
-        const leave = await Leave.findById(leaveId);
-        if (!leave) {
-            return res.status(404).json({ error: 'Leave request not found' });
-        }
-
-        leave.status = 'approved';
-        leave.approvedOn = new Date();
-        leave.approvedBy = approverId;
-
-        await leave.save();
-        res.json({ msg: 'Leave request approved successfully', leave });
+      const leaveId = req.params.id;
+      const userId = req.body.userId; // Assuming user ID is stored in req.user
+  
+      const leave = await Leave.findById(leaveId);
+      if (!leave) {
+        return res.status(404).json({ error: 'Leave not found' });
+      }
+  
+      leave.status = 'approved';
+      leave.approvedOn = new Date();
+      leave.approvedBy = userId;
+  
+      await leave.save();
+  
+      res.json({ message: 'Leave approved successfully', leave });
     } catch (error) {
-        console.error('Error approving leave request:', error);
-        res.status(400).json({ error: 'Unable to approve leave request', details: error.message });
+      console.error('Error approving leave:', error);
+      res.status(500).json({ error: 'Unable to approve leave', details: error.message });
     }
-});
+  });  
 
 module.exports = router;

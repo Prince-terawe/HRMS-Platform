@@ -6,8 +6,9 @@ const checkPermission = require('../../middleware/roleMiddleware');
 
 const router = express.Router();
 
-router.put('/:leaveId', checkPermission('updateAny'), async (req, res) => {
+router.put('/:leaveId', checkPermission('cancleLeave'), async (req, res) => {
     try {
+        
         const leaveId = req.params.leaveId;
         const rejectorId = req.userId; // Assuming req.userId is set by authentication middleware
 
