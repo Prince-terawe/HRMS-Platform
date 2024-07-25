@@ -2,11 +2,11 @@ const express = require('express');
 const Leave = require('./../../model/leave');
 const User = require('./../../model/user');
 const checkPermission = require('../../middleware/roleMiddleware');
-
+const authorisation = require('../../middleware/authMiddleware');
 
 const router = express.Router();
 
-router.put('/:leaveId', checkPermission('cancleLeave'), async (req, res) => {
+router.put('/:leaveId', authorisation, checkPermission('cancleLeave'), async (req, res) => {
     try {
         
         const leaveId = req.params.leaveId;
