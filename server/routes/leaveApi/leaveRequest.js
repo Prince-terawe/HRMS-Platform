@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const Leave = require('../../model/leave');
 const User = require('../../model/user');
 const authenticate = require('../../middleware/auth'); // Import the authenticate middleware
+const sendEmail = require('../../utils/sendEmails')
 
 const router = express.Router();
 
@@ -42,7 +43,42 @@ router.post('/', authenticate, async (req, res) => {
         });
 
         const leaveDetails = await newLeave.save();
-        res.json({ msg: "Leave request submitted!", leaveDetails });
+
+        // finde manager
+        const manager = await User.findById(user.manager);
+        if (manager) {
+            const approveUrl = `http://localhost:5000/leaveApi/leaves/approve/${leaveDetails._id}`;
+            const rejectUrl = `http://localhost:5000/leaveApi/leaves/reject/${leaveDetails._id}`;
+            const emailText = `
+        <p>Dear ${manager.profile.firstName},</p>
+        
+        <p>The following leave request has been submitted by ${user.profile.firstName} ${user.profile.lastName}:</p>
+        
+        <ul>
+            <li>Leave Type: ${leaveType}</li>
+            <li>Number of Days: ${numberOfDays}</li>
+            <li>Start Date: ${new Date(startDate).toLocaleDateString()}</li>
+            <li>End Date: ${new Date(endDate).toLocaleDateString()}</li>
+            <li>Reason: ${reason}</li>
+        </ul>
+        
+        <p>Please review and take the necessary action.</p>
+        
+        <a href="${approveUrl}" style="text-decoration:none;">
+            <button style="background-color:green;color:white;padding:10px 20px;border:none;border-radius:5px;">Approve</button>
+        </a>
+        <a href="${rejectUrl}" style="text-decoration:none;">
+            <button style="background-color:red;color:white;padding:10px 20px;border:none;border-radius:5px;">Reject</button>
+        </a>
+        
+        <p>Thank you,<br>HR System</p>
+    `;
+            await sendEmail(manager.email, '', 'Leave Request Notification', emailText);
+        }
+
+
+        res.json({ msg: "Leave request submitted and notification sent to manager!", leaveDetails });
+        // res.json({ msg: "Leave request submitted!", leaveDetails });
     } catch (error) {
         console.error('Error making a leave request:', error);
         res.status(400).json({ error: "Unable to send leave request", details: error.message });

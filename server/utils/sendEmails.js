@@ -15,7 +15,8 @@ const sendEmail = (to, cc, subject, text) => {
     to,
     cc,
     subject,
-    text
+    text,
+    html
   };
   
   return mailer.sendMail(mailOptions);

@@ -32,6 +32,7 @@ router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, re
       leave.approvedBy = userId;
  
       await leave.save();
+      await user.save();
  
       res.json({ message: 'Leave approved successfully', leave });
     } catch (error) {
