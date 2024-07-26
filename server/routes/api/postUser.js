@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
                 profileImage,
                 phoneNumber,
                 address
-            }
+            },
         });
 
         const user = await newUser.save();

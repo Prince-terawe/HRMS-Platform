@@ -1,6 +1,9 @@
 // middleware/authMiddleware.js
 const jwt = require('jsonwebtoken');
+const express = require('express');
+const crypto = require('crypto');
 const User = require('../model/user'); // Adjust the path as necessary
+const sendEmail = require('../utils/sendEmails');
 
 const authenticate = async (req, res, next) => {
     const token = req.header('Authorization')?.replace('Bearer ', '');

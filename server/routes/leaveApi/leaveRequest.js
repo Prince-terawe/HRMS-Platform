@@ -26,7 +26,7 @@ router.post('/', async (req, res) => {
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
+        
         // Create new leave request
         const newLeave = new Leave({
             connectionId: user._id,

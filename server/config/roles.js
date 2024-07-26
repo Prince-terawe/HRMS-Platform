@@ -1,14 +1,14 @@
 const roles = {
     Admin: {
       can: ['manageAny', 'viewAny'],
-      inherits: ['HR Manager'],
+      inherits: ['HR'],
     },
-    'HR Manager': {
-      can: ['approveLeave', 'viewAny', 'cancleLeave'],
+    HR: {
+      can: ['approveLeave', 'viewAny', 'cancelLeave'],
       inherits: ['Manager'],
     },
     Manager: {
-      can: ['approveLeave', 'viewTeam', 'cancleLeave'],
+      can: ['approveLeave', 'viewTeam', 'cancelLeave'],
       inherits: ['Employee'],
     },
     Employee: {

@@ -1,8 +1,8 @@
 const express = require('express');
 const Leave = require('./../../model/leave');
 const User = require('./../../model/user');
-const checkPermission = require('../../middleware/roleMiddleware');
- const authorisation = require('../../middleware/authMiddleware');
+const checkPermission = require('../../middleware/permissions');
+ const authorisation = require('../../middleware/auth');
  
 const router = express.Router();
  
@@ -15,7 +15,18 @@ router.put('/:id', authorisation, checkPermission('approveLeave'), async (req, r
       if (!leave) {
         return res.status(404).json({ error: 'Leave not found' });
       }
- 
+      const empId = leave.connectionId;
+
+      const user = await User.findById(empId);
+      if(!user){
+        return res.sendStatus(404).json({error: "User with leave not found" });
+      }
+
+      if(leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= 1;
+      else if(leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= 1;
+      else if(leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= 1;
+      else user.leaveBalance.workFromHome -= 1;
+
       leave.status = 'approved';
       leave.approvedOn = new Date();
       leave.approvedBy = userId;

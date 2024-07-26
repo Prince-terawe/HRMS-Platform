@@ -5,7 +5,7 @@ const leaveRequest = require('./leaveRequest')
 const allReq = require('./getAllReq')
 const reqById = require('./getReqById')
 const approveLeaveRoute = require('./approveLeave');
-const rejectLeave = require('./cancleLeave');
+const rejectLeave = require('./cancelLeave');
 
 router.use('/leaveRequest', leaveRequest);
 router.use('/getAllLeaves', allReq);
