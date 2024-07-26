@@ -1,11 +1,12 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Leave = require('../../model/leave');
-const User = require('../../model/user')
+const User = require('../../model/user');
+const authenticate = require('../../middleware/auth'); // Import the authenticate middleware
 
 const router = express.Router();
 
-router.post('/', async (req, res) => {
+router.post('/', authenticate, async (req, res) => {
     const { userId, leaveType, numberOfDays, startDate, endDate, reason } = req.body;
 
     let emptyFields = [];
@@ -22,11 +23,13 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const user = await User.findOne({ userId });
+        const userId = req.userId; // Get the authenticated user's ID from the request object
+        const user = await User.findById(userId); // Find the user by the ID set by the authenticate middleware
+        // const user = await User.findOne({ userId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
+
         // Create new leave request
         const newLeave = new Leave({
             connectionId: user._id,

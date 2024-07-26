@@ -2,11 +2,11 @@ const express = require('express');
 const Leave = require('./../../model/leave');
 const User = require('./../../model/user');
 const checkPermission = require('../../middleware/permissions');
- const authorisation = require('../../middleware/auth');
+ const authenticate = require('../../middleware/auth');
  
 const router = express.Router();
  
-router.put('/:id', authorisation, checkPermission('approveLeave'), async (req, res) => {
+router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, res) => {
     try {
       const leaveId = req.params.id;
       const userId = req.userId; // Assuming user ID is stored in req.user

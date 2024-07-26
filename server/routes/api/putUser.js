@@ -1,9 +1,10 @@
 const express = require('express');
 const User = require('./../../model/user');
+const authenticate = require('../../middleware/auth');
 
 const router = express.Router();
 
-router.put('/:id', async (req, res) => {
+router.put('/:id', authenticate, async (req, res) => {
     try {
         const { phoneNumber, firstName, dateOfBirth, ...rest } = req.body;
 
