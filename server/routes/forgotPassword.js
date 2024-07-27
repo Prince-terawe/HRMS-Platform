@@ -17,12 +17,12 @@ router.post('/forgotPassword', async (req, res) => {
 
     const token = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = token;
-    user.resetPasswordExpires = Date.now() + 600000; // 10 minutes
+    user.resetPasswordExpires = Date.now() + 3600000; // 1hr
 
     await user.save();
 
     const resetURL = `http://localhost:5000/api/forgotPassword/resetPassword/${token}`;
-    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following link( valid for 10 minutes only ), or paste it into your browser to complete the process: \n\n ${resetURL}`;
+    const message = `You are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following link( valid for 1hr only ), or paste it into your browser to complete the process: \n\n ${resetURL}`;
 
     await sendEmail(user.email, null, 'Password Reset', message);
 

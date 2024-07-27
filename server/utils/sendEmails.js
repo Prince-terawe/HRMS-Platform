@@ -9,13 +9,14 @@ const options = {
 
 const mailer = nodemailer.createTransport(sgTransport(options));
 
-const sendEmail = (to, cc, subject, text) => {
+const sendEmail = (to, cc, subject, text, html) => {
   const mailOptions = {
     from: 'ankitkashyap9320@gmail.com',
     to,
     cc,
     subject,
-    text
+    text,
+    html
   };
   
   return mailer.sendMail(mailOptions);
