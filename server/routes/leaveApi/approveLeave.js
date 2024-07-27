@@ -1,7 +1,6 @@
 const express = require('express');
 const Leave = require('./../../model/leave');
 const User = require('./../../model/user');
-const jwt = require('jsonwebtoken');
 const checkPermission = require('../../middleware/permissions');
 const authenticate = require('../../middleware/auth');
  
@@ -22,24 +21,22 @@ router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, re
       if (!user) {
           return res.status(404).json({ error: 'User with leave not found' });
       }
-      if(leave.status === 'approved'){
-        res.send('Leave status is approved already');
-      }
-      
-      if (leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= 1;
-      else if (leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= 1;
-      else if (leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= 1;
+
+      if(leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= 1;
+      else if(leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= 1;
+      else if(leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= 1;
       else user.leaveBalance.workFromHome -= 1;
 
       leave.status = 'approved';
       leave.approvedOn = new Date();
       leave.approvedBy = userId;
-
+ 
       await user.save();
-      await leave.save();
 
-      res.send('Leave approved successfully', leave);
-  } catch (error) {
+      await leave.save();
+ 
+      res.json({ message: 'Leave approved successfully', leave });
+    } catch (error) {
       console.error('Error approving leave:', error);
       res.status(500).json({ error: 'Unable to approve leave', details: error.message });
   }
