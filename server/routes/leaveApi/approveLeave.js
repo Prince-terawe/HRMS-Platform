@@ -22,6 +22,10 @@ router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, re
           return res.status(404).json({ error: 'User with leave not found' });
       }
 
+      if(leave.status === 'approve'){
+        res.json({ message: 'Leave already approved', leave });
+      }
+
       if(leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= 1;
       else if(leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= 1;
       else if(leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= 1;
@@ -32,7 +36,6 @@ router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, re
       leave.approvedBy = userId;
  
       await user.save();
-
       await leave.save();
  
       res.json({ message: 'Leave approved successfully', leave });

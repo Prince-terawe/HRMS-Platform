@@ -18,7 +18,6 @@ const leaveSchema = new Schema({
     },
     numberOfDays: {
         type: Number,
-        required: true
     },
     startDate: {
         type: Date,

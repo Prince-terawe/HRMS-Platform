@@ -8,13 +8,12 @@ const sendEmail = require('../../utils/sendEmails')
 const router = express.Router();
 
 router.post('/', authenticate, async (req, res) => {
-    const { userId, leaveType, numberOfDays, startDate, endDate, reason } = req.body;
+    const { userId, leaveType, startDate, endDate, reason } = req.body;
 
     let emptyFields = [];
 
     if (!userId) emptyFields.push('userId');
     if (!leaveType) emptyFields.push('leaveType');
-    if (!numberOfDays) emptyFields.push('numberOfDays');
     if (!startDate) emptyFields.push('startDate');
     if (!endDate) emptyFields.push('endDate');
     if (!reason) emptyFields.push('reason');
@@ -28,7 +27,12 @@ router.post('/', authenticate, async (req, res) => {
         const user = await User.findById(userId); // Find the user by the ID set by the authenticate middleware
         // const user = await User.findOne({ userId });
         if (!user) {
-            return res.status(404).json({ error: 'User not found, I' });
+            return res.status(404).json({ error: 'User not found' });
+        }
+        const leaveDays = ((endDate - startDate) / (1000 * 3600 * 24)) + 1;
+
+        if(leaveDays > user.leaveBalance.leaveType){
+            res.json({ msg: `You don't have ${leaveDays} leaves in your ${leaveType} leave balance`});
         }
 
         // Create new leave request
@@ -36,7 +40,7 @@ router.post('/', authenticate, async (req, res) => {
             connectionId: user._id,
             userId: userId, // Set employeeId from the User document's _id
             leaveType,
-            numberOfDays,
+            numberOfDays: leaveDays,
             startDate,
             endDate,
             reason
