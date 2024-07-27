@@ -1,6 +1,7 @@
 const express = require('express');
-const User = require('./../../model/user');
 const bcrypt = require('bcryptjs');
+const User = require('./../../model/user');
+const axios = require('axios');
 
 const router = express.Router();
 
@@ -28,6 +29,17 @@ router.post('/', async (req, res) => {
     }
 
     try {
+        const validationResponse = await axios.post('http://localhost:5000/api/users/createUser/validate', {
+            username,
+            email,
+            userId
+        });
+        console.log(validationResponse.data.errors);
+        // If there are validation errors, return them
+        if (validationResponse.data.errors) {
+            return res.status(400).json(validationResponse.data.errors);
+        }
+
         // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -55,8 +67,7 @@ router.post('/', async (req, res) => {
         const user = await newUser.save();
         res.json({ msg: "User added successfully!", user });
     } catch (error) {
-        console.error('Error adding user:', error);
-        res.status(400).json({ error: "Unable to add User", details: error.message });
+        res.status(500).json({ error: "Unable to add User", details: error.message });
     }
 });
 

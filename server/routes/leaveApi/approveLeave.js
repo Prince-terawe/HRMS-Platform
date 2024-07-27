@@ -26,10 +26,10 @@ router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, re
         res.json({ message: 'Leave already approved', leave });
       }
 
-      if(leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= 1;
-      else if(leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= 1;
-      else if(leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= 1;
-      else user.leaveBalance.workFromHome -= 1;
+      if(leave.leaveType === 'casualLeave') user.leaveBalance.casualLeave -= leave.numberOfDays;
+      else if(leave.leaveType === 'sickLeave') user.leaveBalance.sickLeave -= leave.numberOfDays;
+      else if(leave.leaveType === 'paidLeave') user.leaveBalance.paidLeave -= leave.numberOfDays;
+      else user.leaveBalance.workFromHome -= leave.numberOfDays;
 
       leave.status = 'approved';
       leave.approvedOn = new Date();

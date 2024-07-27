@@ -23,13 +23,15 @@ router.post('/', authenticate, async (req, res) => {
     }
 
     try {
-        const userId = req.userId; // Get the authenticated user's ID from the request object
-        const user = await User.findById(userId); // Find the user by the ID set by the authenticate middleware
+        const empId = req.userId; // Get the authenticated user's ID from the request object
+        const user = await User.findById(empId); // Find the user by the ID set by the authenticate middleware
         // const user = await User.findOne({ userId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        const leaveDays = ((endDate - startDate) / (1000 * 3600 * 24)) + 1;
+        const start = new Date(startDate);
+        const end = new Date(endDate);
+        const leaveDays = ((end - start) / (1000 * 3600 * 24)) + 1;
 
         if(leaveDays > user.leaveBalance.leaveType){
             res.json({ msg: `You don't have ${leaveDays} leaves in your ${leaveType} leave balance`});
@@ -60,7 +62,7 @@ router.post('/', authenticate, async (req, res) => {
         
         <ul>
             <li>Leave Type: ${leaveType}</li>
-            <li>Number of Days: ${numberOfDays}</li>
+            <li>Number of Days: ${leaveDays}</li>
             <li>Start Date: ${new Date(startDate).toLocaleDateString()}</li>
             <li>End Date: ${new Date(endDate).toLocaleDateString()}</li>
             <li>Reason: ${reason}</li>
@@ -68,18 +70,17 @@ router.post('/', authenticate, async (req, res) => {
         
         <p>Please review and take the necessary action.</p>
         
-        <a href="${approveUrl}" style="text-decoration:none;">
+        <a href='${approveUrl}' style="text-decoration:none;">
             <button style="background-color:green;color:white;padding:10px 20px;border:none;border-radius:5px;">Approve</button>
         </a>
-        <a href="${rejectUrl}" style="text-decoration:none;">
+        <a href='${rejectUrl}' style="text-decoration:none;">
             <button style="background-color:red;color:white;padding:10px 20px;border:none;border-radius:5px;">Reject</button>
         </a>
         
         <p>Thank you,<br>HR System</p>
     `;
-            await sendEmail(manager.email, '', 'Leave Request Notification', emailText);
+            await sendEmail(manager.email, '', 'Leave Request Notification','', emailText);
         }
-
 
         res.json({ msg: "Leave request submitted and notification sent to manager!", leaveDetails });
         // res.json({ msg: "Leave request submitted!", leaveDetails });
