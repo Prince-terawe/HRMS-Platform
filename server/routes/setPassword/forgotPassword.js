@@ -33,31 +33,4 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/forgotPassword/resetPassword/:token', async (req, res) => {
-  const { token } = req.params;
-  const { password } = req.body;
-
-  try {
-    const user = await User.findOne({
-      resetPasswordToken: token,
-      resetPasswordExpires: { $gt: Date.now() }
-    });
-
-    if (!user) {
-      return res.status(400).json({ error: 'Password reset token is invalid or has expired' });
-    }
-
-    user.password = await bcrypt.hash(password, 10);
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpires = undefined;
-
-    await user.save();
-
-    res.json({ msg: 'Password has been reset successfully' });
-  } catch (error) {
-    console.error('Error during password reset:', error);
-    res.status(500).json({ error: 'Internal server error', details: error.message });
-  }
-});
-
 module.exports = router;
