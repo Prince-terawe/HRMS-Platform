@@ -1,7 +1,7 @@
 const User = require('../model/user');
 const roles = require('../config/roles');
  
-const checkPermission = (action) => async (req, res, next) => {
+const checkPermission = (actions) => async (req, res, next) => {
   try {
     const userId = req.userId; // Adjust as per your use case
     if (!userId) {
@@ -20,16 +20,24 @@ const checkPermission = (action) => async (req, res, next) => {
       return res.status(403).json({ error: 'Role not found' });
     }
  
-    if (rolePermissions.can.includes(action)) {
-      return next();
-    }
- 
-    let inheritedRole = rolePermissions.inherits;
-    while (inheritedRole) {
-      if (roles[inheritedRole].can.includes(action)) {
-        return next();
+    const hasPermission = actions.some(action => {
+      if (rolePermissions.can.includes(action)) {
+        return true;
       }
-      inheritedRole = roles[inheritedRole].inherits;
+
+      let inheritedRole = rolePermissions.inherits;
+      while (inheritedRole) {
+        if (roles[inheritedRole].can.includes(action)) {
+          return true;
+        }
+        inheritedRole = roles[inheritedRole].inherits;
+      }
+
+      return false;
+    });
+
+    if (hasPermission) {
+      return next();
     }
  
     return res.status(403).json({ error: 'Permission denied' });
