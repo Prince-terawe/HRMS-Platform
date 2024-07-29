@@ -7,8 +7,8 @@ const reqById = require('./getReqById')
 const approveLeaveRoute = require('./approveLeave');
 const rejectLeave = require('./cancelLeave');
 
-router.use('/leaveRequest', leaveRequest);
-router.use('/getAllLeaves', allReq);
+router.use('/', leaveRequest);
+router.use('/', allReq);
 router.use('/', reqById);
 router.use('/approve', approveLeaveRoute);
 router.use('/reject', rejectLeave);

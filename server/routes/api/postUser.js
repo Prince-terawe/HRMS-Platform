@@ -1,7 +1,7 @@
 const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('./../../model/user');
-const axios = require('axios');
+const validateUser = require('./../../utils/validateUser'); // Import the validation function
 
 const router = express.Router();
 
@@ -29,15 +29,9 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const validationResponse = await axios.post('http://localhost:5000/api/users/createUser/validate', {
-            username,
-            email,
-            userId
-        });
-        console.log(validationResponse.data.errors);
-        // If there are validation errors, return them
-        if (validationResponse.data.errors) {
-            return res.status(400).json(validationResponse.data.errors);
+        const errors = await validateUser({ username, email, userId });
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).json({ errors });
         }
 
         // Hash the password

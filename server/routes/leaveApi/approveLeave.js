@@ -6,7 +6,7 @@ const authenticate = require('../../middleware/auth');
  
 const router = express.Router();
  
-router.put('/:id', authenticate, checkPermission('approveLeave'), async (req, res) => {
+router.put('/:id', authenticate, checkPermission('manageLeave'), async (req, res) => {
   try {
       const leaveId = req.params.id;
       const userId = req.userId;

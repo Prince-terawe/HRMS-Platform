@@ -1,18 +1,26 @@
 const express = require('express');
 const User = require('./../../model/user');
 const authenticate = require('../../middleware/auth');
+const checkPermission = require('../../middleware/permissions');
+const validateUser = require('../../utils/validateUser');
 
 const router = express.Router();
 
-router.put('/:id', authenticate, async (req, res) => {
+router.put('/:id', authenticate,  checkPermission('viewAny'), async (req, res) => {
     try {
-        const { phoneNumber, firstName, dateOfBirth, ...rest } = req.body;
+        const { phoneNumber, firstName, dateOfBirth, username, email, userId, ...rest } = req.body;
 
         const user = await User.findById(req.params.id);
 
         if (!user) {
             return res.status(404).json({ noUserFound: 'No User found' });
         }
+
+        const errors = await validateUser({ username, email, userId });
+        if (Object.keys(errors).length > 0) {
+            return res.status(400).json({ errors });
+        }
+
 
         if (phoneNumber || firstName || dateOfBirth) {
             user.profile = user.profile || {};
