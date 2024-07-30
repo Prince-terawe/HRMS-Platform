@@ -5,7 +5,7 @@ const bodyParser = require('body-parser');
 const { connectDb } = require('./Database/db'); // Your MongoDB connection file
 const userRoutes = require('./routes/api/index'); // Path to your user routes file
 const leaveRoutes = require('./routes/leaveApi/index');
-const setPassword = require('./routes/setPassword/index');
+const authentication = require('./routes/Authentication/index');
 
 const app = express();
 
@@ -23,7 +23,7 @@ app.use(bodyParser.json());
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/leaveApi/leaves', leaveRoutes);
-app.use('/api/setPassword', setPassword);
+app.use('/api/authentication', authentication);
 
 const PORT = process.env.PORT || 5000;
 connectDb().then(() => {
