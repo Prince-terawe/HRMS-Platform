@@ -5,7 +5,7 @@ const checkPermission = require('../../middleware/permissions');
 
 const router = express.Router();
 
-router.get('/:id', authenticate, checkPermission('viewAny'), (req, res) => {
+router.get('/:id', authenticate, checkPermission(['viewAny']), (req, res) => {
     Leave.findById(req.params.id)
         .then(leave => res.json(leave))
         .catch(err => res.status(404).json({ noLeaveRequestFound: 'No Leave request found' }));

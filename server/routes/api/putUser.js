@@ -6,7 +6,7 @@ const validateUser = require('../../utils/validateUser');
 
 const router = express.Router();
 
-router.put('/:id', authenticate,  checkPermission('viewAny'), async (req, res) => {
+router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res) => {
     try {
         const { phoneNumber, firstName, dateOfBirth, username, email, userId, ...rest } = req.body;
 

@@ -6,7 +6,7 @@ const authenticate = require('../../middleware/auth');
 const router = express.Router();
 
 // Route to delete a user by ID
-router.delete('/:id', authenticate ,checkPermission('manageAny') ,(req, res) => {
+router.delete('/:id', authenticate ,checkPermission(['manageAny']) ,(req, res) => {
     User.findByIdAndDelete(req.params.id)
         .then(user => {
             if (!user) {
