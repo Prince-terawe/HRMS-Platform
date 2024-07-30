@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const bodyParser = require('body-parser');
 const { connectDb } = require('./Database/db'); // Your MongoDB connection file
-const userRoutes = require('./routes/api/index'); // Path to your user routes file
+const userRoutes = require('./routes/user/index'); // Path to your user routes file
 const leaveRoutes = require('./routes/leaveApi/index');
 const authentication = require('./routes/Authentication/index');
 

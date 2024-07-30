@@ -9,6 +9,7 @@ const userSchema = new Schema({
     email: {type: String,required: true,unique: true},
     role: {type: String,enum: ['Employee', 'Manager', 'Admin', 'HR'],default: 'Employee'},
     department: {type: String,required: true},
+    teamProject: { type: [String], default: [] },
     manager: {type: mongoose.Schema.Types.ObjectId,ref: 'User'},
     leaveBalance: {
         casualLeave: {type: Number,default: 12},
