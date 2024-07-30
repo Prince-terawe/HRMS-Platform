@@ -5,7 +5,7 @@ const User = require('../../model/user');
 
 const router = express.Router();
 
-router.put('/:userId/addToTeam', authenticate, checkPermission(['manageTeam']), async (req, res) => {
+router.put('/:userId', authenticate, checkPermission(['manageTeam']), async (req, res) => {
     const { userId } = req.params;
     const { projectName } = req.body;
 

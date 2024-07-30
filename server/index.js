@@ -6,6 +6,7 @@ const { connectDb } = require('./Database/db'); // Your MongoDB connection file
 const userRoutes = require('./routes/user/index'); // Path to your user routes file
 const leaveRoutes = require('./routes/leaveApi/index');
 const authentication = require('./routes/Authentication/index');
+const teams = require('./routes/teams/index')
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.use(bodyParser.json());
 app.use('/api/users', userRoutes);
 app.use('/leaveApi/leaves', leaveRoutes);
 app.use('/api/authentication', authentication);
+app.use('/api/teams', teams);
 
 const PORT = process.env.PORT || 5000;
 connectDb().then(() => {

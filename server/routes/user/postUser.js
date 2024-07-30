@@ -8,7 +8,7 @@ const router = express.Router();
 router.post('/', async (req, res) => {
     const {
         userId, username, password, email, role, department, position, hireDate, manager,
-        firstName, dateOfBirth, phoneNumber, lastName, address, profileImage
+        firstName, dateOfBirth, phoneNumber, lastName, address, profileImage, teamProject
     } = req.body;
 
     let emptyFields = [];
@@ -48,6 +48,7 @@ router.post('/', async (req, res) => {
             position,
             hireDate,
             manager,
+            teamProject,
             profile: {
                 firstName,
                 lastName,

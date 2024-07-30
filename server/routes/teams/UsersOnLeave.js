@@ -6,7 +6,7 @@ const User = require('../../model/user');
 
 const router = express.Router();
 
-router.get('/:projectName/onLeave', authenticate, checkPermission(['viewAny', 'viewTeam']), async (req, res) => {
+router.get('/:projectName', authenticate, checkPermission(['viewAny', 'viewTeam']), async (req, res) => {
     const { projectName } = req.params;
 
     try {
