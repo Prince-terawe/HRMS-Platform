@@ -8,7 +8,7 @@ const router = express.Router();
 router.get('/:id', authenticate, checkPermission(['viewAny','viewOwn']), (req, res) => {
     User.findById(req.params.id)
         .then(user => res.json(user))
-        .catch(err => res.status(404).json({ noUserFound: 'No User found' }));
+        .catch(err => res.status(404).json({ noUserFound: 'No Employee found' }));
 });
 
 module.exports = router;

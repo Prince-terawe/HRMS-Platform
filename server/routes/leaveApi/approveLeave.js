@@ -9,7 +9,7 @@ const router = express.Router();
 router.put('/:id', authenticate, checkPermission(['manageLeave']), async (req, res) => {
   try {
       const leaveId = req.params.id;
-      const userId = req.userId;
+      const empId = req.user.empId;
 
       const leave = await Leave.findById(leaveId);
       if (!leave) {
@@ -33,7 +33,7 @@ router.put('/:id', authenticate, checkPermission(['manageLeave']), async (req, r
 
       leave.status = 'approved';
       leave.approvedOn = new Date();
-      leave.approvedBy = user.profile.firstName;
+      leave.approvedBy = empId;
  
       await user.save();
       await leave.save();

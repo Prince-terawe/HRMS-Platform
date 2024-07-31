@@ -4,9 +4,9 @@ async function validateUser({ empname, email, empId }) {
     let errors = {};
 
     if (empname) {
-        const userWithempname = await User.findOne({ empname });
-        if (userWithempname) {
-            errors.empname = 'empname already exists';
+        const userWithEmployeename = await User.findOne({ empname });
+        if (userWithEmployeename) {
+            errors.empname = 'EmployeeName already exists';
         }
     }
 

@@ -22,8 +22,9 @@ router.post('/', authenticate, async (req, res) => {
     }
 
     try {
-        const employeeId = req.userId; // Get the authenticated user's ID from the request object
-        const user = await User.findById(employeeId); // Find the user by the ID set by the authenticate middleware
+        const objectId = req.objectId; // Get the authenticated user's ID from the request object
+
+        const user = await User.findById(objectId); // Find the user by the ID set by the authenticate middleware
         // const user = await User.findOne({ userId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });

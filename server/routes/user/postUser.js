@@ -10,7 +10,7 @@ router.post('/', async (req, res) => {
         empId, empname, password, email, role, department, position, hireDate, manager,
         firstName, dateOfBirth, phoneNumber, lastName, address, profileImage, teamProject
     } = req.body;
-
+    console.log(empname);
     let emptyFields = [];
 
     if (!empId) emptyFields.push('empId');
@@ -60,9 +60,9 @@ router.post('/', async (req, res) => {
         });
 
         const user = await newUser.save();
-        res.json({ msg: "User added successfully!", user });
+        res.json({ msg: "Employee added successfully!", user });
     } catch (error) {
-        res.status(500).json({ error: "Unable to add User", details: error.message });
+        res.status(500).json({ error: "Unable to add Employeessssssss", details: error.message });
     }
 });
 

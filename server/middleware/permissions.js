@@ -3,14 +3,15 @@ const roles = require('../config/roles');
  
 const checkPermission = (actions) => async (req, res, next) => {
   try {
-    const userId = req.userId; // Adjust as per your use case
-    if (!userId) {
-      return res.status(400).json({ error: 'User ID is required' });
+    const objectId = req.objectId;
+    const empId = req.empId; // Adjust as per your use case
+    if (!objectId) {
+      return res.status(400).json({ error: 'Employee ID is required' });
     }
  
-    const user = await User.findById(userId);
+    const user = await User.findById(objectId);
     if (!user) {
-      return res.status(404).json({ error: 'User not found' });
+      return res.status(404).json({ error: 'Employee not found' });
     }
  
     const userRole = user.role;

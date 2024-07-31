@@ -5,15 +5,16 @@ const User = require('../../model/user');
 
 const router = express.Router();
 
-router.put('/:userId', authenticate, checkPermission(['manageTeam']), async (req, res) => {
-    const { userId } = req.params;
+router.put('/:id', authenticate, checkPermission(['manageTeam']), async (req, res) => {
+    const { id } = req.params;
     const { projectName } = req.body;
 
     try {
-        const user = await User.findById(userId);
+        const user = await User.findById(id);
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
+        
         if(!user.teamProject.includes(projectName)) res.json("User is not enrolled in this Project.");
         user.teamProject = user.teamProject.filter(project => project !== projectName);
         await user.save();

@@ -14,13 +14,14 @@ const authenticate = async (req, res, next) => {
     try {
         console.log(token)
         const decoded = jwt.verify(token, process.env.JWT_SECRET); // Make sure to use your secret key
-        const user = await User.findById(decoded.userId); // Assuming the token contains userId
+        const user = await User.findById(decoded.empId); // Assuming the token contains empId
 
         if (!user) {
             return res.status(401).json({ error: 'Authentication required' });
         }
 
-        req.userId = user._id;
+        req.objectId = user._id;
+        req.empId = user.empId;
         req.user = user; // Optionally attach the user object to req
         next();
     } catch (error) {
