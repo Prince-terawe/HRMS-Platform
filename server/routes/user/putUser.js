@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res) => {
     try {
-        const { phoneNumber, firstName, dateOfBirth, username, email, userId, ...rest } = req.body;
+        const { phoneNumber, firstName, dateOfBirth, empname, email, empId, ...rest } = req.body;
 
         const user = await User.findById(req.params.id);
 
@@ -16,7 +16,7 @@ router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res)
             return res.status(404).json({ noUserFound: 'No User found' });
         }
 
-        const errors = await validateUser({ username, email, userId });
+        const errors = await validateUser({ empname, email, empId });
         if (Object.keys(errors).length > 0) {
             return res.status(400).json({ errors });
         }

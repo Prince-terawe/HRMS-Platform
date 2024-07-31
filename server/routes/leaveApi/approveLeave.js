@@ -16,8 +16,8 @@ router.put('/:id', authenticate, checkPermission(['manageLeave']), async (req, r
           return res.status(404).json({ error: 'Leave not found' });
       }
 
-      const empId = leave.connectionId;
-      const user = await User.findById(empId);
+      const employeeId = leave.connectionId;
+      const user = await User.findById(employeeId);
       if (!user) {
           return res.status(404).json({ error: 'User with leave not found' });
       }
@@ -33,7 +33,7 @@ router.put('/:id', authenticate, checkPermission(['manageLeave']), async (req, r
 
       leave.status = 'approved';
       leave.approvedOn = new Date();
-      leave.approvedBy = userId;
+      leave.approvedBy = user.profile.firstName;
  
       await user.save();
       await leave.save();

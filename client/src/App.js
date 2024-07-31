@@ -1,12 +1,20 @@
-import './App.css';
+// src/App.js
+
+import React from 'react';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import Login from './components/login';
+import ForgotPassword from './components/forgot';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Terawe-HRMS Platform</h1>
-      </header>
-    </div>
+    <Router>
+      <div className="App">
+        <Routes>
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/" element={<Login />} />
+        </Routes>
+      </div>
+    </Router>
   );
 }
 
