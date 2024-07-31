@@ -4,7 +4,7 @@ const bcrypt = require('bcryptjs');
 
 const router = express.Router();
 
-router.post('/:token', async (req, res) => {
+router.put('/:token', async (req, res) => {
     const { token } = req.params;
     const { password } = req.body;
 

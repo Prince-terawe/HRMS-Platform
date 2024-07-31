@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
 
     await sendEmail(user.email, '', 'Password Reset', '', message);
 
-    res.json({ msg: 'Password reset link sent'});
+    res.json({ msg: 'Password reset link sent', token});
   } catch (error) {
     console.error('Error during password reset request:', error);
     res.status(500).json({ error: 'Internal server error', details: error.message });
