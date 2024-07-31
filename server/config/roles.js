@@ -1,6 +1,6 @@
 const roles = {
     Admin: {
-      can: ['manageAny', 'viewAny'],
+      can: ['manageAny', 'viewAny', 'manageTeam'],
       inherits: ['HR'],
     },
     HR: {
