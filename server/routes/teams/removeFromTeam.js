@@ -14,7 +14,7 @@ router.put('/:userId', authenticate, checkPermission(['manageTeam']), async (req
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-
+        if(!user.teamProject.includes(projectName)) res.json("User is not enrolled in this Project.");
         user.teamProject = user.teamProject.filter(project => project !== projectName);
         await user.save();
 
