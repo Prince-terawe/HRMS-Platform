@@ -1,8 +1,8 @@
 // utils/generateToken.js
 const jwt = require('jsonwebtoken');
 
-const generateToken = (userId) => {
-    return jwt.sign({ userId }, process.env.JWT_SECRET, { expiresIn: '12h' }); // Adjust expiration as needed
+const generateToken = (empId) => {
+    return jwt.sign({ empId }, process.env.JWT_SECRET, { expiresIn: '12h' }); // Adjust expiration as needed
 };
 
 module.exports = generateToken;

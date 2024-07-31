@@ -10,7 +10,7 @@ router.put('/:leaveId', authenticate, checkPermission(['manageLeave']), async (r
     try {
         
         const leaveId = req.params.leaveId;
-        const rejectorId = req.userId; // Assuming req.userId is set by authentication middleware
+        const rejectorId = req.empId; // Assuming req.userId is set by authentication middleware
 
         const leave = await Leave.findById(leaveId);
         if (!leave) {

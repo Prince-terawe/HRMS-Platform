@@ -19,7 +19,7 @@ router.get('/:projectName', authenticate, checkPermission(['viewAny', 'viewTeam'
         }).populate({
             path: 'connectionId',
             match: { teamProject: projectName },
-            select: 'username email teamProject'
+            select: 'empname email teamProject'
         }).exec();
 
         const uniqueUsersSet = new Set();

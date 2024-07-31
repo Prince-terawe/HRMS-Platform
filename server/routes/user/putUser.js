@@ -8,15 +8,15 @@ const router = express.Router();
 
 router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res) => {
     try {
-        const { phoneNumber, firstName, dateOfBirth, username, email, userId, ...rest } = req.body;
+        const { phoneNumber, firstName, dateOfBirth, empname, email, empId, ...rest } = req.body;
 
         const user = await User.findById(req.params.id);
 
         if (!user) {
-            return res.status(404).json({ noUserFound: 'No User found' });
+            return res.status(404).json({ noUserFound: 'No Employee found' });
         }
 
-        const errors = await validateUser({ username, email, userId });
+        const errors = await validateUser({ empname, email, empId });
         if (Object.keys(errors).length > 0) {
             return res.status(400).json({ errors });
         }
@@ -31,10 +31,10 @@ router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res)
         Object.assign(user, rest);
 
         const updatedUser = await user.save();
-        res.json({ msg: "User updated successfully!", user: updatedUser });
+        res.json({ msg: "Employee data updated successfully!", user: updatedUser });
     } catch (error) {
-        console.error('Error updating user:', error);
-        res.status(400).json({ error: "Unable to update User", details: error.message });
+        console.error('Error updating Employee data:', error);
+        res.status(400).json({ error: "Unable to update Employee data", details: error.message });
     }
 });
 

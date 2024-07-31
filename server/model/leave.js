@@ -7,7 +7,7 @@ const leaveSchema = new Schema({
         ref: 'User', 
         required: true
     },
-    userId: {
+    empId: {
         type: String,
         required: true
     },

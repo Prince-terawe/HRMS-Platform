@@ -7,14 +7,14 @@ const router = express.Router();
 
 router.post('/', async (req, res) => {
     const {
-        userId, username, password, email, role, department, position, hireDate, manager,
+        empId, empname, password, email, role, department, position, hireDate, manager,
         firstName, dateOfBirth, phoneNumber, lastName, address, profileImage, teamProject
     } = req.body;
-
+    console.log(empname);
     let emptyFields = [];
 
-    if (!userId) emptyFields.push('userId');
-    if (!username) emptyFields.push('username');
+    if (!empId) emptyFields.push('empId');
+    if (!empname) emptyFields.push('empname');
     if (!password) emptyFields.push('password');
     if (!email) emptyFields.push('email');
     if (!department) emptyFields.push('department');
@@ -29,7 +29,8 @@ router.post('/', async (req, res) => {
     }
 
     try {
-        const errors = await validateUser({ username, email, userId });
+        const errors = await validateUser({ empname, email, empId });
+
         if (Object.keys(errors).length > 0) {
             return res.status(400).json({ errors });
         }
@@ -39,8 +40,8 @@ router.post('/', async (req, res) => {
         const hashedPassword = await bcrypt.hash(password, salt);
 
         const newUser = new User({
-            userId,
-            username,
+            empId,
+            empname,
             password: hashedPassword, // Store hashed password
             email,
             role,
@@ -60,9 +61,9 @@ router.post('/', async (req, res) => {
         });
 
         const user = await newUser.save();
-        res.json({ msg: "User added successfully!", user });
+        res.json({ msg: "Employee added successfully!", user });
     } catch (error) {
-        res.status(500).json({ error: "Unable to add User", details: error.message });
+        res.status(500).json({ error: "Unable to add Employeessssssss", details: error.message });
     }
 });
 

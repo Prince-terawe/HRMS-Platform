@@ -8,11 +8,10 @@ const sendEmail = require('../../utils/sendEmails')
 const router = express.Router();
 
 router.post('/', authenticate, async (req, res) => {
-    const { userId, leaveType, startDate, endDate, reason } = req.body;
+    const { leaveType, startDate, endDate, reason } = req.body;
 
     let emptyFields = [];
 
-    if (!userId) emptyFields.push('userId');
     if (!leaveType) emptyFields.push('leaveType');
     if (!startDate) emptyFields.push('startDate');
     if (!endDate) emptyFields.push('endDate');
@@ -23,8 +22,9 @@ router.post('/', authenticate, async (req, res) => {
     }
 
     try {
-        const empId = req.userId; // Get the authenticated user's ID from the request object
-        const user = await User.findById(empId); // Find the user by the ID set by the authenticate middleware
+        const objectId = req.objectId; // Get the authenticated user's ID from the request object
+
+        const user = await User.findById(objectId); // Find the user by the ID set by the authenticate middleware
         // const user = await User.findOne({ userId });
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
@@ -40,7 +40,7 @@ router.post('/', authenticate, async (req, res) => {
         // Create new leave request
         const newLeave = new Leave({
             connectionId: user._id,
-            userId: userId, // Set employeeId from the User document's _id
+            empId: user.empId, // Set employeeId from the User document's _id
             leaveType,
             numberOfDays: leaveDays,
             startDate,
