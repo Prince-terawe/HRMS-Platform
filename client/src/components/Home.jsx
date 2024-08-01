@@ -1,7 +1,7 @@
 // src/components/Home.jsx
 import React from 'react';
 import { Link } from 'react-router-dom';
-import Logout from '../components/logout';
+import Logout from './logout';
 
 const Home = () => {
   return (
@@ -19,6 +19,15 @@ const Home = () => {
         </Link>
         <Link to="/addUser" className="text-blue-500 hover:underline">
           Add User
+        </Link>
+        <Link to="/updateEmployee/:id" className="text-blue-500 hover:underline">
+          Update Details
+        </Link>
+        <Link to="/userDetails/:id" className="text-blue-500 hover:underline">
+          Get Employee By Id
+        </Link>
+        <Link to="/allUsers" className="text-blue-500 hover:underline">
+          All Users
         </Link>
         <Logout />
       </nav>

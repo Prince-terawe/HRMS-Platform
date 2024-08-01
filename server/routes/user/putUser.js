@@ -8,7 +8,7 @@ const router = express.Router();
 
 router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res) => {
     try {
-        const { phoneNumber, firstName, dateOfBirth, empname, email, empId, ...rest } = req.body;
+        const { phoneNumber, empname, email, empId, role, manager, department, position, ...rest } = req.body;
 
         const user = await User.findById(req.params.id);
 
@@ -22,12 +22,15 @@ router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res)
         }
 
 
-        if (phoneNumber || firstName || dateOfBirth|| email) {
+        if (phoneNumber || email || role || manager || department || position) {
             user.profile = user.profile || {};
             if (phoneNumber) user.profile.phoneNumber = phoneNumber;
-            if (firstName) user.profile.firstName = firstName;
-            if (dateOfBirth) user.profile.dateOfBirth = dateOfBirth;
             if (email) user.email = email;
+            if (role) user.role = role;
+            if (position) user.position = position;
+            if (department) user.department = department;
+            if (manager) user.manager = manager;
+
         }
         Object.assign(user, rest);
 

@@ -1,12 +1,9 @@
-// src/components/login.jsx
- 
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-
   const handleLogin = async () => {
     try {
       const response = await fetch('http://localhost:5000/api/authentication/login', {

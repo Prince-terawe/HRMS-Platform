@@ -2,6 +2,8 @@ const express = require('express');
 const bcrypt = require('bcryptjs');
 const User = require('../../model/user');
 const validateUser = require('../../utils/validateUser'); // Import the validation function
+const authenticate = require('../../middleware/auth');
+const checkPermission = require('../../middleware/permissions');
 
 const router = express.Router();
 
