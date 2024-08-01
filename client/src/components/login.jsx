@@ -1,15 +1,38 @@
-// src/components/login.jsx
- 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    // Implement login logic here
-    console.log('Login', { email, password });
+  const navigate = useNavigate();
+ 
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/authentication/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+ 
+      const data = await response.json();
+ 
+      if (!response.ok) {
+        throw new Error(data.error || 'Invalid email or password');
+      }
+ 
+      const { token, msg } = data;
+      console.log(msg); // Display the message
+ 
+      // Save the token in localStorage or a context provider for future requests
+      localStorage.setItem('token', token);
+ 
+      // Optionally, redirect to a protected route
+      navigate('/');
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Invalid email or password');
+    }
   };
  
   return (
@@ -45,4 +68,4 @@ const Login = () => {
 };
  
 export default Login;
-
+ 
