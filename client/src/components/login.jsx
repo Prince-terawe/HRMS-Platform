@@ -1,15 +1,31 @@
+// src/components/login.jsx
+ 
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-
+import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios';
+ 
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-
-  const handleLogin = () => {
-    // Implement login logic here
-    console.log('Login', { email, password });
+  const navigate = useNavigate();
+ 
+  const handleLogin = async () => {
+    try {
+      const response = await axios.post('http://localhost:5000/api/authentication/login', { email, password });
+      const { token, msg } = response.data;
+      console.log(msg); // Display the message
+ 
+      // Save the token in localStorage or a context provider for future requests
+      localStorage.setItem('token', token);
+ 
+      // Optionally, redirect to a protected route
+      navigate('/');
+    } catch (error) {
+      console.error('Login error:', error);
+      alert('Invalid email or password');
+    }
   };
-
+ 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       <h2 className="text-2xl font-bold mb-4">Login</h2>
@@ -41,6 +57,5 @@ const Login = () => {
     </div>
   );
 };
-
+ 
 export default Login;
-

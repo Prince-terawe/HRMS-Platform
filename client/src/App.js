@@ -4,6 +4,7 @@ import Home from './pages/Home';
 import AddUserToTeam from './pages/AddEmployeeToTeam';
 import ForgotPassword from './components/forgot.jsx';
 import Login from './components/login.jsx';
+import AddUser from './pages/AddUser.jsx';
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
           <Route path="/add-user-to-team" element={<AddUserToTeam />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/addUser" element={<AddUser/>} />
         </Routes>
       </div>
     </Router>
