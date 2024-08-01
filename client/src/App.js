@@ -6,6 +6,7 @@ import ForgotPassword from './components/forgot';
 import Login from './components/login';
 import AddUser from './pages/AddUser.jsx';
 import ResetPassword from './components/resetpassword';
+import ApplyLeave from './components/ApplyLeave.jsx';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -29,6 +30,7 @@ const App = () => {
           <Route path="/add-user-to-team" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/addUser" element={<AddUser/>} />
+          <Route path="/apply-leave" element={isAuthenticated ? <ApplyLeave /> : <Navigate to="/login" />} />
         </Routes>
       </div>
     </Router>

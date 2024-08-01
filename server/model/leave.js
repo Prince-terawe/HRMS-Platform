@@ -13,7 +13,6 @@ const leaveSchema = new Schema({
     },
     leaveType: {
         type: String,
-        enum: ['sickLeave', 'casualLeave', 'paidLeave', 'workFromHome'],
         required: true
     },
     numberOfDays: {
