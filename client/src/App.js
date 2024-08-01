@@ -6,13 +6,10 @@ import ForgotPassword from './components/forgot';
 import Login from './components/login';
 import AddUser from './components/AddUser.jsx';
 import ResetPassword from './components/resetpassword';
-<<<<<<< HEAD
 import ApplyLeave from './components/ApplyLeave.jsx';
-=======
 import UpdateUser from './components/updateEmployeeData.jsx';
 import UserDetails from './components/UserDetails.jsx';
 import AllUsers from './components/AllUsers.jsx';
->>>>>>> a8754371aa90a92d6735590e141d726eaa044b42
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
