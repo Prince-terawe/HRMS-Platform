@@ -2,15 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import AddUserToTeam from './pages/AddEmployeeToTeam';
-<<<<<<< HEAD
 import ForgotPassword from './components/forgot';
 import Login from './components/login';
-import ResetPassword from './components/resetpassword';
-=======
-import ForgotPassword from './components/forgot.jsx';
-import Login from './components/login.jsx';
 import AddUser from './pages/AddUser.jsx';
->>>>>>> 59e6c4edbca56bbbf684d7747a042318e73d4a69
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
