@@ -2,10 +2,28 @@ import React, { useState } from 'react';
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState('');
+  const [message, setMessage] = useState('');
 
-  const handleForgotPassword = () => {
-    // Implement forgot password logic here
-    console.log('Forgot Password', { email });
+  const handleForgotPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/authentication/forgotPassword', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      setMessage(data.msg);
+    } catch (error) {
+      setMessage(error.message);
+    }
   };
 
   return (
@@ -26,6 +44,7 @@ const ForgotPassword = () => {
       >
         Submit
       </button>
+      {message && <p className="mt-4">{message}</p>}
     </div>
   );
 };

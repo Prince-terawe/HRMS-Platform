@@ -1,1 +1,40 @@
 /* src/LoginPage.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: #f0f0f0;
+  }
+  
+  .inputContainer {
+    margin-bottom: 10px;
+  }
+  
+  .input {
+    padding: 10px;
+    width: 200px;
+    font-size: 16px;
+  }
+  
+  .button {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: blue;
+    color: #f0f0f0;
+  }
+  
+  .linkButton {
+    padding: 10px 20px;
+    font-size: 16px;
+    margin-top: 10px;
+    background-color: transparent;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+  }
+  

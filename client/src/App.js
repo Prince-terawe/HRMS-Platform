@@ -1,19 +1,32 @@
-import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import AddUserToTeam from './pages/AddEmployeeToTeam';
-import ForgotPassword from './components/forgot.jsx';
-import Login from './components/login.jsx';
+import ForgotPassword from './components/forgot';
+import Login from './components/login';
+import ResetPassword from './components/resetpassword';
 
 const App = () => {
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
+
+  useEffect(() => {
+    // Check for token in localStorage
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   return (
     <Router>
       <div>
         <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/add-user-to-team" element={<AddUserToTeam />} />
-          <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          {/* <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} /> */}
+          <Route path="/" element={ <Home /> } />
+          <Route path="/add-user-to-team" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
+          <Route path="/reset-password/:token" element={<ResetPassword />} />
         </Routes>
       </div>
     </Router>

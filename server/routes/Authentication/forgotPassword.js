@@ -21,7 +21,7 @@ router.post('/', async (req, res) => {
 
     await user.save();
 
-    const resetURL = `http://localhost:5000/api/setPassword/resetPassword/${token}`;
+    const resetURL = `http://localhost:3000/reset-password/${token}`;
     const message = `
       <p>You are receiving this email because you (or someone else) has requested the reset of a password. Please click on the following link (valid for 1 hour only), or paste it into your browser to complete the process:</p>
       <p><a href="${resetURL}" style="padding: 10px 20px; color: white; background-color: blue; text-decoration: none; border-radius: 5px;">Reset Password</a></p>

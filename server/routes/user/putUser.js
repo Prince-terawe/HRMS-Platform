@@ -22,11 +22,12 @@ router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res)
         }
 
 
-        if (phoneNumber || firstName || dateOfBirth) {
+        if (phoneNumber || firstName || dateOfBirth|| email) {
             user.profile = user.profile || {};
             if (phoneNumber) user.profile.phoneNumber = phoneNumber;
             if (firstName) user.profile.firstName = firstName;
             if (dateOfBirth) user.profile.dateOfBirth = dateOfBirth;
+            if (email) user.email = email;
         }
         Object.assign(user, rest);
 
