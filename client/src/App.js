@@ -1,21 +1,23 @@
-// src/App.js
-
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
-import Login from './components/login';
-import ForgotPassword from './components/forgot';
+import Home from './pages/Home';
+import AddUserToTeam from './pages/AddEmployeeToTeam';
+import ForgotPassword from './components/forgot.jsx';
+import Login from './components/login.jsx';
 
-function App() {
+const App = () => {
   return (
     <Router>
-      <div className="App">
+      <div>
         <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/add-user-to-team" element={<AddUserToTeam />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/" element={<Login />} />
+          <Route path="/login" element={<Login />} />
         </Routes>
       </div>
     </Router>
   );
-}
+};
 
 export default App;
