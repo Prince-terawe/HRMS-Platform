@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 // Define the user schema
 const userSchema = new Schema({
     empId: {type: String,required: true,unique: true,},
-    empname: {type: String,required: true,unique: true},
+    empname: {type: String},
     password: {type: String,required: true,},
     email: {type: String,required: true,unique: true},
-    role: {type: String,enum: ['Employee', 'Manager', 'Admin', 'HR'],default: 'Employee'},
+    role: {type: String, default: 'Employee'},
     department: {type: String,required: true},
     teamProject: { type: [String], default: [] },
     manager: {type: mongoose.Schema.Types.ObjectId,ref: 'User'},

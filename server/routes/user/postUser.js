@@ -14,7 +14,7 @@ router.post('/', async (req, res) => {
     let emptyFields = [];
 
     if (!empId) emptyFields.push('empId');
-    if (!empname) emptyFields.push('empname');
+    // if (!empname) emptyFields.push('empname');
     if (!password) emptyFields.push('password');
     if (!email) emptyFields.push('email');
     if (!department) emptyFields.push('department');
@@ -38,9 +38,11 @@ router.post('/', async (req, res) => {
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
 
+        const FullName = `${firstName} ${lastName}`
+
         const newUser = new User({
             empId,
-            empname,
+            empname: FullName,
             password: hashedPassword, // Store hashed password
             email,
             role,
