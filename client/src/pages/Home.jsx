@@ -17,6 +17,9 @@ const Home = () => {
         <Link to="/login" className="text-blue-500 hover:underline">
           Login
         </Link>
+        <Link to="/addUser" className="text-blue-500 hover:underline">
+          Add User
+        </Link>
         <Logout />
       </nav>
     </div>

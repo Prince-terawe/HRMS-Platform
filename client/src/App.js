@@ -5,6 +5,7 @@ import AddUserToTeam from './pages/AddEmployeeToTeam';
 import ForgotPassword from './components/forgot';
 import Login from './components/login';
 import AddUser from './pages/AddUser.jsx';
+import ResetPassword from './components/resetpassword';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
