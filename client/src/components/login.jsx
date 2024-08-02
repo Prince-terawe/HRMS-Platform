@@ -21,10 +21,12 @@ const Login = () => {
       }
 
       const { token, msg } = data;
+      // const { token, role, msg } = data;
       console.log(msg); // Display the message
 
       // Save the token in localStorage or a context provider for future requests
       localStorage.setItem('token', token);
+      // localStorage.setItem('role', role);
 
       // Optionally, redirect to a protected route
       navigate('/');

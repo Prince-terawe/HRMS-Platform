@@ -10,6 +10,9 @@ import ApplyLeave from './components/ApplyLeave.jsx';
 import UpdateUser from './components/updateEmployeeData.jsx';
 import UserDetails from './components/UserDetails.jsx';
 import AllUsers from './components/AllUsers.jsx';
+import ApproveRejectLeave from './components/ApproveRejectLeave.jsx';
+import AllLeaveRequests from './components/AllLeaveRequest.jsx';
+import MyProfile from './components/MyProfile.jsx'
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -28,8 +31,8 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} /> */}
-          <Route path="/" element={ <Home /> } />
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+          {/* <Route path="/" element={ <Home /> } /> */}
           <Route path="/add-user-to-team" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/addUser" element={<AddUser/>} />
@@ -37,6 +40,10 @@ const App = () => {
           <Route path="/updateEmployee/:id" element={<UpdateUser/>} />
           <Route path="/userDetails/:id" element={<UserDetails />} /> 
           <Route path="/allUsers" element={<AllUsers />} /> 
+          <Route path="/all-leave" element={<AllLeaveRequests />} /> 
+          <Route path="/leave/:leaveId" element={<ApproveRejectLeave />} /> 
+          {/* <Route path="/leave/:leaveId" element={isAuthenticated ? <ApproveRejectLeave /> : <Navigate to="/login" />} /> */}
+          <Route path="/myProfile" element={<MyProfile />} /> 
         </Routes>
       </div>
     </Router>
