@@ -12,7 +12,7 @@ const roles = {
       inherits: ['Employee'],
     },
     Employee: {
-      can: ['requestLeave', 'viewOwn', 'updateOwn', 'viewTeam'],
+      can: ['requestLeave', 'viewOwn', 'updateOwn', 'viewTeam', 'viewAny'],
     },
   };
   
