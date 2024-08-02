@@ -5,7 +5,7 @@ const User = require('../../model/user');
 
 const router = express.Router();
 
-router.put('/:id', authenticate, checkPermission(['manageTeam']), async (req, res) => {
+router.put('/:id', authenticate, checkPermission(['viewAny', 'manageAny']), async (req, res) => {
     const { id } = req.params;
     const { projectName } = req.body;
 

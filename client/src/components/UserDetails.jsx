@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const UserDetails = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
+  const [projects, setProjects] = useState([]);
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -20,6 +22,8 @@ const UserDetails = () => {
         }
         const data = await response.json();
         setUser(data);
+        setProjects(data.teamProject);
+        
       } catch (error) {
         setError(error.message);
       }
@@ -53,6 +57,24 @@ const UserDetails = () => {
           className="w-full p-2 bg-blue-500 text-white rounded"
         >
           Update Employee
+        </button>
+        <div>
+          <h3 className="text-xl font-semibold mt-4">Teams</h3>
+          <ul className="list-disc pl-5">
+            {projects.map((project, index) => (
+              <li key={index}>
+                <Link to={`/teamDetails/${project}`} className="text-blue-500 hover:underline">
+                  {project}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <button
+          onClick={() => navigate(`/addUserToTeam/${user._id}`)}
+          className="w-full p-2 bg-blue-500 text-white rounded"
+        >
+          Add User To New Team
         </button>
       </div>
     </div>
