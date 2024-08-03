@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { Link } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -8,7 +7,9 @@ const UserDetails = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [projects, setProjects] = useState([]);
-
+  const [manager, setManager] = useState(null);
+  
+  // Fetch user details
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -23,6 +24,20 @@ const UserDetails = () => {
         const data = await response.json();
         setUser(data);
         setProjects(data.teamProject);
+
+        // Fetch manager details after user data is fetched
+        if (data.manager) {
+          const managerResponse = await fetch(`http://localhost:5000/api/users/${data.manager}`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+          if (!managerResponse.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const managerData = await managerResponse.json();
+          setManager(managerData);
+        }
         
       } catch (error) {
         setError(error.message);
@@ -51,7 +66,7 @@ const UserDetails = () => {
         <p><strong>Role:</strong> {user.role}</p>
         <p><strong>Department:</strong> {user.department}</p>
         <p><strong>Position:</strong> {user.position}</p>
-        <p><strong>Manager:</strong> {user.manager}</p>
+        <p><strong>Manager:</strong> {manager ? `${manager.profile.firstName} ${manager.profile.lastName}` : 'Loading...'}</p>
         <button
           onClick={() => navigate(`/updateEmployee/${user._id}`)}
           className="w-full p-2 bg-blue-500 text-white rounded"

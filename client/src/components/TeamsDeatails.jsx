@@ -6,10 +6,12 @@ const TeamsDetails = () => {
   const navigate = useNavigate();
   const [team, setTeam] = useState([]);
   const [error, setError] = useState(null);
+  const [onLeaveUsers, setOnLeaveUsers] = useState({}); // Object to store leave status keyed by user ID
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
+        // Fetch team members
         const response = await fetch(`http://localhost:5000/api/teams/getUsersFromTeam/${id}`, {
           headers: {
             'Content-Type': 'application/json',
@@ -21,6 +23,26 @@ const TeamsDetails = () => {
         }
         const data = await response.json();
         setTeam(data.users);
+
+        // Fetch users on leave today
+        const leaveResponse = await fetch(`http://localhost:5000/api/teams/getUsersOnLeave/${id}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+        if (!leaveResponse.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const leaveData = await leaveResponse.json();
+        console.log(leaveData);
+        // Create a dictionary of users on leave for quick lookup
+        const leaveStatus = leaveData.users.reduce((acc, user) => {
+          acc[user._id] = true; // Mark user as on leave
+          return acc;
+        }, {});
+        setOnLeaveUsers(leaveStatus);
+
       } catch (error) {
         setError(error.message);
       }
@@ -54,6 +76,9 @@ const TeamsDetails = () => {
             )}
             <p><strong>Role:</strong> {member.role}</p>
             <p><strong>Department:</strong> {member.department}</p>
+            {onLeaveUsers[member._id] && (
+              <p className="mt-2 text-red-500">On Leave Today</p>
+            )}
           </div>
         ))}
       </div>
