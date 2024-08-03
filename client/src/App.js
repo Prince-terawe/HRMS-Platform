@@ -36,30 +36,21 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-<<<<<<< HEAD
-          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
-          {/* <Route path="/" element={ <Home /> } /> */}
-          <Route path="/add-user-to-team" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
-=======
           {/* <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} /> */}
           <Route path="/" element={ <Home /> } />
           <Route path="/addUserToTeam/:id" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
->>>>>>> 41c31c495bfa58ea8617f6dadbd521c4e336aedf
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/addUser" element={<AddUser/>} />
           <Route path="/apply-leave" element={isAuthenticated ? <ApplyLeave /> : <Navigate to="/login" />} />
           <Route path="/updateEmployee/:id" element={<UpdateUser/>} />
           <Route path="/userDetails/:id" element={<UserDetails />} /> 
           <Route path="/allUsers" element={<AllUsers />} /> 
-<<<<<<< HEAD
           <Route path="/all-leave" element={<AllLeaveRequests />} /> 
           <Route path="/leave/:leaveId" element={<ApproveRejectLeave />} /> 
           {/* <Route path="/leave/:leaveId" element={isAuthenticated ? <ApproveRejectLeave /> : <Navigate to="/login" />} /> */}
           <Route path="/myProfile" element={<MyProfile />} /> 
-=======
           <Route path="/teamDetails/:id" element={<TeamsDetails />} /> 
           <Route path="/leaveDetails/:id" element={<LeaveDetails />} />
->>>>>>> 41c31c495bfa58ea8617f6dadbd521c4e336aedf
         </Routes>
       </div>
     </Router>
