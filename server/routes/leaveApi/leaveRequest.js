@@ -53,8 +53,8 @@ router.post('/', authenticate, async (req, res) => {
         // finde manager
         const manager = await User.findById(user.manager);
         if (manager) {
-            const approveUrl = `http://localhost:5000/leaveApi/leaves/approve/${leaveDetails._id}`;
-            const rejectUrl = `http://localhost:5000/leaveApi/leaves/reject/${leaveDetails._id}`;
+            const approveUrl = `http://localhost:3000/leave/${leaveDetails._id}`;
+            const rejectUrl = `http://localhost:3000/leave/${leaveDetails._id}`;
             const emailText = `
         <p>Dear ${manager.profile.firstName},</p>
         

@@ -13,7 +13,7 @@ const UserDetails = () => {
   useEffect(() => {
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${id}`, {
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${id}`, {
           headers: {
             'Authorization': `Bearer ${localStorage.getItem('token')}`
           }
@@ -39,8 +39,34 @@ const UserDetails = () => {
           setManager(managerData);
         }
         
+        if (data.manager) {
+          fetchManager(data.manager);
+        } else {
+          setManager('N/A');
+        }
       } catch (error) {
         setError(error.message);
+      }
+    };
+
+    const fetchManager = async (managerId) => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${managerId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch manager name');
+        }
+        console.log('Fetched manager name:', data);
+        setManager(`${data.profile.firstName} ${data.profile.lastName}`);
+      } catch (err) {
+        console.error('Error fetching manager name:', err);
+        setError(err.message);
       }
     };
 
