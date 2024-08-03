@@ -60,6 +60,7 @@ const AddUser = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${localStorage.getItem('token')}`
         },
         body: JSON.stringify(formData),
       });
@@ -186,7 +187,7 @@ const AddUser = () => {
         <input
           type="date"
           placeholder="Joining Date"
-          name="hireDtae"
+          name="hireDate"
           value={formData.hireDate}
           onChange={handleChange}
           className="w-7/12 p-2 border border-gray-300 rounded"

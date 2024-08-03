@@ -95,7 +95,7 @@ const AllLeaveRequests = () => {
             {leaves.map((leave) => (
                 <tr key={leave._id} className="bg-gray-200">
                   <td className="py-3 px-4">
-                    <Link to={`/user/${leave.empId}`} className="text-blue-500 hover:underline">
+                    <Link to={`/userDetails/${leave.connectionId}`} className="text-blue-500 hover:underline">
                       {leave.empId}
                     </Link>
                   </td>
