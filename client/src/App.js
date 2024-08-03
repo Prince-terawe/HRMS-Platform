@@ -10,14 +10,11 @@ import ApplyLeave from './components/ApplyLeave.jsx';
 import UpdateUser from './components/updateEmployeeData.jsx';
 import UserDetails from './components/UserDetails.jsx';
 import AllUsers from './components/AllUsers.jsx';
-<<<<<<< HEAD
 import ApproveRejectLeave from './components/ApproveRejectLeave.jsx';
 import AllLeaveRequests from './components/AllLeaveRequest.jsx';
 import MyProfile from './components/MyProfile.jsx'
-=======
 import TeamsDetails from './components/TeamsDeatails.jsx';
 import LeaveDetails from './components/LeaveDetails.jsx';
->>>>>>> 41c31c495bfa58ea8617f6dadbd521c4e336aedf
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
