@@ -8,6 +8,7 @@ const UserDetails = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState(null);
   const [projects, setProjects] = useState([]);
+  const [manager, setManager] = useState('');
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -24,8 +25,34 @@ const UserDetails = () => {
         setUser(data);
         setProjects(data.teamProject);
         
+        if (data.manager) {
+          fetchManager(data.manager);
+        } else {
+          setManager('N/A');
+        }
       } catch (error) {
         setError(error.message);
+      }
+    };
+
+    const fetchManager = async (managerId) => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${managerId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch manager name');
+        }
+        console.log('Fetched manager name:', data);
+        setManager(`${data.profile.firstName} ${data.profile.lastName}`);
+      } catch (err) {
+        console.error('Error fetching manager name:', err);
+        setError(err.message);
       }
     };
 
@@ -51,7 +78,7 @@ const UserDetails = () => {
         <p><strong>Role:</strong> {user.role}</p>
         <p><strong>Department:</strong> {user.department}</p>
         <p><strong>Position:</strong> {user.position}</p>
-        <p><strong>Manager:</strong> {user.manager}</p>
+        <p><strong>Manager:</strong> {manager}</p>
         <button
           onClick={() => navigate(`/updateEmployee/${user._id}`)}
           className="w-full p-2 bg-blue-500 text-white rounded"

@@ -23,40 +23,40 @@ const MyProfile = () => {
         }
         console.log('Fetched user data:', data);
         setUser(data);
+
+        if (data.manager) {
+          fetchManager(data.manager);
+        } else {
+          setManager('N/A');
+        }
       } catch (err) {
         console.error('Error fetching user profile:', err);
         setError(err.message);
       }
     };
 
-    const fetchManager = async () => {
-      if(user.manager === null){
-        setManager('N/A');
-      }
-      else{
-        try {
-          const response = await fetch(`http://localhost:5000/api/users/getUserById/${user.manager}`, {
-            headers: {
-              'Content-Type': 'application/json',
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-          });
-    
-          const data = await response.json();
-            if (!response.ok) {
-              throw new Error(data.message || 'Failed to fetch manager name');
-            }
-            console.log('Fetched manager name:', data);
-            setManager(`${data.profile.firstName} ${data.profile.lastName}`);
-        } catch (err) {
-          console.error('Error fetching manager name:', err);
-          setError(err.message);
+    const fetchManager = async (managerId) => {
+      try {
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${managerId}`, {
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.message || 'Failed to fetch manager name');
         }
+        console.log('Fetched manager name:', data);
+        setManager(`${data.profile.firstName} ${data.profile.lastName}`);
+      } catch (err) {
+        console.error('Error fetching manager name:', err);
+        setError(err.message);
       }
     };
 
     fetchUserProfile();
-    fetchManager();
   }, [id]);
 
   if (error) {
