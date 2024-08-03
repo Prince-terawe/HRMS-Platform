@@ -1,27 +1,37 @@
 import React, { useState } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
 
 const AddUserToTeam = () => {
   const [username, setUsername] = useState('');
   const [projectName, setProjectName] = useState('');
   const [message, setMessage] = useState('');
+  const { id } = useParams();
+  const navigate = useNavigate();
 
   const handleAddUserToTeam = async (e) => {
     e.preventDefault();
     try {
-      const userIdResponse = await fetch(`http://localhost:5000/api/users?username=${username}`);
-      const userIdData = await userIdResponse.json();
-      if (!userIdResponse.ok || !userIdData.userId) {
-        setMessage(`Error: ${userIdData.error || 'User not found'}`);
-        return;
-      }
-      const userId = userIdData.userId;
-
-      const response = await fetch(`http://localhost:5000/api/teams/addUserToTeam?userId=${userId}&projectName=${projectName}`, {
+      // Construct the form data object
+      const formData = {
+        projectName,
+      };
+      
+      // Send the request to add user to the team
+      const response = await fetch(`http://localhost:5000/api/teams/addUserToTeam/${id}`, {
         method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+        },
+        body: JSON.stringify(formData),
       });
+
       const data = await response.json();
       if (response.ok) {
         setMessage('User added to team successfully');
+        navigate(`/userDetails/${id}`);
+        // Optionally, redirect to another page or clear the form
+        // navigate('/some-path');
       } else {
         setMessage(`Error: ${data.error}`);
       }
@@ -34,7 +44,7 @@ const AddUserToTeam = () => {
     <div className="p-6">
       <h2 className="text-xl font-bold">Add User to Team</h2>
       <form onSubmit={handleAddUserToTeam}>
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <label className="block mb-2">Username</label>
           <input
             type="text"
@@ -43,7 +53,7 @@ const AddUserToTeam = () => {
             className="border p-2 w-full"
             required
           />
-        </div>
+        </div> */}
         <div className="mb-4">
           <label className="block mb-2">Project Name</label>
           <input

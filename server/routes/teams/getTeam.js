@@ -13,10 +13,10 @@ router.get('/:project', authenticate,  async (req, res) => {
         // Find users where teamProject array includes the projectName
         const users = await User.find({ teamProject: { $in: [project] } });
 
-        res.json({ msg: "Users fetched successfully!", users });
+        res.json({ msg: "Employees fetched successfully!", users });
     } catch (error) {
-        console.error('Error fetching users with project name:', error);
-        res.status(500).json({ error: "Unable to fetch users", details: error.message });
+        console.error('Error fetching employees with project name:', error);
+        res.status(500).json({ error: "Unable to fetch employee", details: error.message });
     }
 });
 

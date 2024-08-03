@@ -8,7 +8,7 @@ const roles = {
       inherits: ['Manager'],
     },
     Manager: {
-      can: ['manageLeave', 'viewTeam'],
+      can: ['manageLeave', 'viewTeam', 'viewAny'],
       inherits: ['Employee'],
     },
     Employee: {
