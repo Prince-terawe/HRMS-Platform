@@ -8,8 +8,7 @@ const UserDetails = () => {
   const [error, setError] = useState(null);
   const [projects, setProjects] = useState([]);
   const [manager, setManager] = useState(null);
-  
-  // Fetch user details
+
   useEffect(() => {
     const fetchUser = async () => {
       try {
@@ -42,31 +41,10 @@ const UserDetails = () => {
         if (data.manager) {
           fetchManager(data.manager);
         } else {
-          setManager('N/A');
+          setManager(null);
         }
       } catch (error) {
         setError(error.message);
-      }
-    };
-
-    const fetchManager = async (managerId) => {
-      try {
-        const response = await fetch(`http://localhost:5000/api/users/getUserById/${managerId}`, {
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${localStorage.getItem('token')}`
-          }
-        });
-
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(data.message || 'Failed to fetch manager name');
-        }
-        console.log('Fetched manager name:', data);
-        setManager(`${data.profile.firstName} ${data.profile.lastName}`);
-      } catch (err) {
-        console.error('Error fetching manager name:', err);
-        setError(err.message);
       }
     };
 
@@ -85,10 +63,10 @@ const UserDetails = () => {
     <div className="container mx-auto px-4">
       <h2 className="text-2xl font-bold mb-4">Employee Details</h2>
       <div className="space-y-4">
-        <p><strong>First Name:</strong> {user.profile.firstName}</p>
-        <p><strong>Last Name:</strong> {user.profile.lastName}</p>
+        <p><strong>First Name:</strong> {user.profile?.firstName}</p>
+        <p><strong>Last Name:</strong> {user.profile?.lastName}</p>
         <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone Number:</strong> {user.profile.phoneNumber}</p>
+        <p><strong>Phone Number:</strong> {user.profile?.phoneNumber}</p>
         <p><strong>Role:</strong> {user.role}</p>
         <p><strong>Department:</strong> {user.department}</p>
         <p><strong>Position:</strong> {user.position}</p>

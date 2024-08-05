@@ -42,14 +42,14 @@ const AllUsers = () => {
           <div key={user._id} className="border p-4 rounded shadow">
             <Link to={`/userDetails/${user._id}`}>
               <div className="flex flex-col items-center">
-                {user.profile.profileImage && (
+                {user.profile?.profileImage && (
                   <img
                     src={user.profile.profileImage}
                     alt={`${user.profile.firstName} ${user.profile.lastName}`}
                     className="w-24 h-24 rounded-full mb-4"
                   />
                 )}
-                <h3 className="text-xl font-bold">{user.profile.firstName} {user.profile.lastName}</h3>
+                <h3 className="text-xl font-bold">{user.profile?.firstName} {user.profile?.lastName}</h3>
                 <p>{user.position}</p>
                 <p>{user.role}</p>
                 <p>{user.department}</p>
