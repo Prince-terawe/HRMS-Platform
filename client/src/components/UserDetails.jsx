@@ -26,18 +26,18 @@ const UserDetails = () => {
         setProjects(data.teamProject);
 
         // Fetch manager details after user data is fetched
-        if (data.manager) {
-          const managerResponse = await fetch(`http://localhost:5000/api/users/${data.manager}`, {
-            headers: {
-              'Authorization': `Bearer ${localStorage.getItem('token')}`
-            }
-          });
-          if (!managerResponse.ok) {
-            throw new Error('Network response was not ok');
-          }
-          const managerData = await managerResponse.json();
-          setManager(managerData);
-        }
+        // if (data.manager) {
+        //   const managerResponse = await fetch(`http://localhost:5000/api/users/getUserById/${data.manager}`, {
+        //     headers: {
+        //       'Authorization': `Bearer ${localStorage.getItem('token')}`
+        //     }
+        //   });
+        //   if (!managerResponse.ok) {
+        //     throw new Error('Network response was not ok');
+        //   }
+        //   const managerData = await managerResponse.json();
+        //   setManager(`${managerData.profile.firstName} ${managerData.profile.lastName}`);
+        // // }
         
         if (data.manager) {
           fetchManager(data.manager);
@@ -92,7 +92,7 @@ const UserDetails = () => {
         <p><strong>Role:</strong> {user.role}</p>
         <p><strong>Department:</strong> {user.department}</p>
         <p><strong>Position:</strong> {user.position}</p>
-        <p><strong>Manager:</strong> {manager ? `${manager.profile.firstName} ${manager.profile.lastName}` : 'Loading...'}</p>
+        <p><strong>Manager:</strong> {manager}</p>
         <button
           onClick={() => navigate(`/updateEmployee/${user._id}`)}
           className="w-full p-2 bg-blue-500 text-white rounded"

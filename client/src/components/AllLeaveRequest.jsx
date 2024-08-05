@@ -60,11 +60,11 @@ const AllLeaveRequests = () => {
 
   const getLeaveStatusClass = (status) => {
     switch (status) {
-      case 'Approved':
+      case 'approved':
         return 'text-green-500';
-      case 'Pending':
+      case 'pending':
         return 'text-orange-500';
-      case 'Rejected':
+      case 'rejected':
         return 'text-red-500';
       default:
         return '';

@@ -11,12 +11,12 @@ const Home = () => {
       <Link to="/myProfile" className="text-blue-500 hover:underline">
           My Profile
         </Link>
-        <Link to="/forgot-password" className="text-blue-500 hover:underline">
+        {/* <Link to="/forgot-password" className="text-blue-500 hover:underline">
           Forgot Password
         </Link>
         <Link to="/login" className="text-blue-500 hover:underline">
           Login
-        </Link>
+        </Link> */}
         <Link to="/addUser" className="text-blue-500 hover:underline">
           Add User
         </Link>
@@ -31,8 +31,12 @@ const Home = () => {
         </Link>
         <Link to="/apply-leave" className="text-blue-500 hover:underline">
           Apply Leave
-        </Link><Link to="/all-leave/" className="text-blue-500 hover:underline">
+        </Link>
+        <Link to="/all-leave/" className="text-blue-500 hover:underline">
           All Leave Request
+        </Link>
+        <Link to="/all-leave/" className="text-blue-500 hover:underline">
+          Leave of Employee
         </Link>
         <Link to="/leave/:id" className="text-blue-500 hover:underline">
           Approve/Reject Leave

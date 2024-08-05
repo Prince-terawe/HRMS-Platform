@@ -15,6 +15,7 @@ import AllLeaveRequests from './components/AllLeaveRequest.jsx';
 import MyProfile from './components/MyProfile.jsx'
 import TeamsDetails from './components/TeamsDeatails.jsx';
 import LeaveDetails from './components/LeaveDetails.jsx';
+import LeaveofEmployee from './components/LeaveofEmployee.jsx';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -33,8 +34,8 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/forgot-password" element={<ForgotPassword />} />
-          {/* <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} /> */}
-          <Route path="/" element={ <Home /> } />
+          <Route path="/" element={isAuthenticated ? <Home /> : <Navigate to="/login" />} />
+          {/* <Route path="/" element={ <Home /> } /> */}
           <Route path="/addUserToTeam/:id" element={isAuthenticated ? <AddUserToTeam /> : <Navigate to="/login" />} />
           <Route path="/reset-password/:token" element={<ResetPassword />} />
           <Route path="/addUser" element={<AddUser/>} />
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/myProfile" element={<MyProfile />} /> 
           <Route path="/teamDetails/:id" element={<TeamsDetails />} /> 
           <Route path="/leaveDetails/:id" element={<LeaveDetails />} />
+          <Route path='/employeeLeave' element={<LeaveofEmployee />} />
         </Routes>
       </div>
     </Router>

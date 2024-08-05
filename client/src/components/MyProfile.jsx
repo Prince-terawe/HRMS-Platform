@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 
 const MyProfile = () => {
   const { id } = useParams();
@@ -113,7 +113,11 @@ const MyProfile = () => {
           <h3 className="text-lg font-semibold mb-2">Team/Projects</h3>
           <ul className="list-disc list-inside">
             {user.teamProject.map((project, index) => (
-              <li key={index}>{project}</li>
+             <li key={index}>
+             <Link to={`/teamDetails/${project}`} className="text-blue-500 hover:underline">
+               {project}
+             </Link>
+           </li>
             ))}
           </ul>
         </div>
