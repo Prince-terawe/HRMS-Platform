@@ -24,22 +24,20 @@ const UserDetails = () => {
         setUser(data);
         setProjects(data.teamProject);
 
-        // Fetch manager details after user data is fetched
-        // if (data.manager) {
-        //   const managerResponse = await fetch(`http://localhost:5000/api/users/getUserById/${data.manager}`, {
-        //     headers: {
-        //       'Authorization': `Bearer ${localStorage.getItem('token')}`
-        //     }
-        //   });
-        //   if (!managerResponse.ok) {
-        //     throw new Error('Network response was not ok');
-        //   }
-        //   const managerData = await managerResponse.json();
-        //   setManager(`${managerData.profile.firstName} ${managerData.profile.lastName}`);
-        // // }
-        
         if (data.manager) {
-          fetchManager(data.manager);
+          const managerResponse = await fetch(`http://localhost:5000/api/users/getUserById/${data.manager}`, {
+            headers: {
+              'Authorization': `Bearer ${localStorage.getItem('token')}`
+            }
+          });
+
+          if (!managerResponse.ok) {
+            throw new Error('Network response was not ok');
+          }
+          const managerData = await managerResponse.json();
+          // console.log({"managerData": managerData});
+
+          setManager(managerData);
         } else {
           setManager(null);
         }
