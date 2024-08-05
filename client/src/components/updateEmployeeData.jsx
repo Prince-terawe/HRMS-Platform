@@ -24,11 +24,17 @@ const UpdateUser = () => {
     // Fetch current user data
     const fetchUser = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/api/users/${id}`);
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${id}`, {
+          headers: {
+            'Authorization': `Bearer ${localStorage.getItem('token')}`
+          }
+        });
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Network response was not ok he he he');
         }
+
         const data = await response.json();
+        // console.log({"user data": data})
         setFormData({
           phoneNumber: data.profile.phoneNumber || '',
           email: data.email || '',

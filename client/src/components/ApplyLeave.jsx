@@ -40,9 +40,11 @@ const ApplyLeave = () => {
       }
 
       setMessage(data.msg);
-      navigate('/'); // Redirect to home or any other page after successful leave application
+      window.alert(data.msg); 
+      navigate('/');
     } catch (error) {
       setMessage(error.message);
+      window.alert(error.message); 
     }
   };
 

@@ -15,6 +15,7 @@ import AllLeaveRequests from './components/AllLeaveRequest.jsx';
 import MyProfile from './components/MyProfile.jsx'
 import TeamsDetails from './components/TeamsDeatails.jsx';
 import LeaveDetails from './components/LeaveDetails.jsx';
+import GetUserLeaveList from './components/GetUserLeaveList.jsx';
 
 const App = () => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -48,6 +49,7 @@ const App = () => {
           <Route path="/myProfile" element={<MyProfile />} /> 
           <Route path="/teamDetails/:id" element={<TeamsDetails />} /> 
           <Route path="/leaveDetails/:id" element={<LeaveDetails />} />
+          <Route path="/LeaveList/:id" element={<GetUserLeaveList />} />
         </Routes>
       </div>
     </Router>
