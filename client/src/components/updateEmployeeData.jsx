@@ -84,7 +84,7 @@ const UpdateUser = () => {
       const data = await response.json();
       if (response.ok) {
         alert(data.msg);
-        navigate('/'); // Redirect to home page or another route
+        navigate(`/hr-dashboard/allUsers/userDetails/${id}`); // Redirect to home page or another route
       } else {
         setErrors(data.errors || {});
         alert(data.error);

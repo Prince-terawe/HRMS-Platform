@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import { useParams, useNavigate, Link } from 'react-router-dom';
+import TeamLeaves from './TeamLeave';
 
 const TeamsDetails = () => {
   const { id } = useParams();
+  // console.log({"projectName": id})
   const navigate = useNavigate();
   const [team, setTeam] = useState([]);
   const [error, setError] = useState(null);
@@ -23,6 +25,7 @@ const TeamsDetails = () => {
         }
         const data = await response.json();
         setTeam(data.users);
+        // console.log({"team": team})
 
         // Fetch users on leave today
         const leaveResponse = await fetch(`http://localhost:5000/api/teams/getUsersOnLeave/${id}`, {
@@ -35,7 +38,7 @@ const TeamsDetails = () => {
           throw new Error('Network response was not ok');
         }
         const leaveData = await leaveResponse.json();
-        console.log(leaveData);
+        // console.log(leaveData);
         // Create a dictionary of users on leave for quick lookup
         const leaveStatus = leaveData.users.reduce((acc, user) => {
           acc[user._id] = true; // Mark user as on leave
@@ -56,19 +59,22 @@ const TeamsDetails = () => {
   }
 
   if (team.length === 0) {
-    return <div>Loading...</div>;
+    return <div>Loading...gg</div>;
   }
 
   return (
     <div className="container mx-auto px-4">
+      <h2 className="text-2xl font-bold mb-4">Team Leave List</h2>
+      <TeamLeaves></TeamLeaves>
       <h2 className="text-2xl font-bold mb-4">Team Members</h2>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {team.map((member) => (
           <div
             key={member._id}
             className="bg-white p-4 rounded shadow cursor-pointer"
-            onClick={() => navigate(`/leaveDetails/${member._id}`)}
+            onClick={() => navigate(`leaveList/${member._id}`)}
           >
+            {/* {console.log({"member id": member._id})} */}
             <p><strong>Full Name:</strong> {member.profile.firstName} {member.profile.lastName}</p>
             <p><strong>Position:</strong> {member.position}</p>
             {member.profile.profileImage && (

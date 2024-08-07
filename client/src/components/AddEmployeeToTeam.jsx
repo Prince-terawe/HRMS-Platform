@@ -29,7 +29,7 @@ const AddUserToTeam = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage('User added to team successfully');
-        navigate(`/userDetails/${id}`);
+        navigate(`/hr-dashboard/allUsers/userDetails/${id}`);
         // Optionally, redirect to another page or clear the form
         // navigate('/some-path');
       } else {

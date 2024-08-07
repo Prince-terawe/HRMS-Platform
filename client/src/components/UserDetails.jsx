@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import { PencilIcon, PlusIcon } from '@heroicons/react/24/outline';
 
 const UserDetails = () => {
   const { id } = useParams();
@@ -35,8 +36,6 @@ const UserDetails = () => {
             throw new Error('Network response was not ok');
           }
           const managerData = await managerResponse.json();
-          // console.log({"managerData": managerData});
-
           setManager(managerData);
         } else {
           setManager(null);
@@ -60,39 +59,43 @@ const UserDetails = () => {
   return (
     <div className="container mx-auto px-4">
       <h2 className="text-2xl font-bold mb-4">Employee Details</h2>
-      <div className="space-y-4">
-        <p><strong>First Name:</strong> {user.profile?.firstName}</p>
-        <p><strong>Last Name:</strong> {user.profile?.lastName}</p>
-        <p><strong>Email:</strong> {user.email}</p>
-        <p><strong>Phone Number:</strong> {user.profile?.phoneNumber}</p>
-        <p><strong>Role:</strong> {user.role}</p>
-        <p><strong>Department:</strong> {user.department}</p>
-        <p><strong>Position:</strong> {user.position}</p>
-        <p><strong>Manager:</strong> {manager}</p>
-        <button
-          onClick={() => navigate(`/updateEmployee/${user._id}`)}
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
-          Update Employee
-        </button>
-        <div>
+      <div className="flex justify-between space-x-4">
+        <div className="flex-1 space-y-4">
+          <button
+            onClick={() => navigate(`/hr-dashboard/updateEmployee/${user._id}`)}
+            className="flex items-center px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600 mb-4"
+          >
+            <PencilIcon className="w-5 h-5 mr-2" />
+            Update Employee
+          </button>
+          <p><strong>First Name:</strong> {user.profile?.firstName}</p>
+          <p><strong>Last Name:</strong> {user.profile?.lastName}</p>
+          <p><strong>Email:</strong> {user.email}</p>
+          <p><strong>Phone Number:</strong> {user.profile?.phoneNumber}</p>
+          <p><strong>Role:</strong> {user.role}</p>
+          <p><strong>Department:</strong> {user.department}</p>
+          <p><strong>Position:</strong> {user.position}</p>
+          <p><strong>Manager:</strong> {manager ? `${manager.profile?.firstName} ${manager.profile?.lastName}` : 'No Manager assigned'}</p>
+        </div>
+        <div className="flex-1">
+          <button
+            onClick={() => navigate(`/hr-dashboard/addUserToTeam/${user._id}`)}
+            className="flex items-center px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600 mb-4"
+          >
+            <PlusIcon className="w-5 h-5 mr-2" />
+            Add User To New Team
+          </button>
           <h3 className="text-xl font-semibold mt-4">Teams</h3>
           <ul className="list-disc pl-5">
             {projects.map((project, index) => (
               <li key={index}>
-                <Link to={`/teamDetails/${project}`} className="text-blue-500 hover:underline">
+                <Link to={`/hr-dashboard/teamDetails/${project}`} className="text-blue-500 hover:underline">
                   {project}
                 </Link>
               </li>
             ))}
           </ul>
         </div>
-        <button
-          onClick={() => navigate(`/addUserToTeam/${user._id}`)}
-          className="w-full p-2 bg-blue-500 text-white rounded"
-        >
-          Add User To New Team
-        </button>
       </div>
     </div>
   );

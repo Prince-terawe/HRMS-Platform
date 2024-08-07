@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 
-const MyProfile = () => {
+const EmployeeProfile = () => {
   // const { id } = useParams();
 
   const [user, setUser] = useState(null);
@@ -26,6 +27,7 @@ const MyProfile = () => {
           throw new Error(data.message || "Failed to fetch user profile");
         }
         setUser(data);
+        // console.log({"employee data": user})
 
         if (data.manager) {
           fetchManager(data.manager);
@@ -71,61 +73,6 @@ const MyProfile = () => {
   if (!user) {
     return <div className="text-center text-gray-500">Loading...</div>;
   }
-
-  const renderRoleSpecificContent = () => {
-    switch (user.role) {
-      case 'Employee':
-        return (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Employee Dashboard</h3>
-            <Link
-              to="/employee-dashboard"
-              className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-            >
-              Dasboard
-            </Link>
-          </div>
-        );
-      case 'Manager':
-        return (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Team Management</h3>
-            <Link
-              to="/manage-team"
-              className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-            >
-              Manage Team
-            </Link>
-          </div>
-        );
-      case 'HR':
-        return (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">HR Management</h3>
-            <Link
-              to="/hr-dashboard"
-              className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-            >
-              HR Dashboard
-            </Link>
-          </div>
-        );
-      case 'Admin':
-        return (
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Admin Panel</h3>
-            <Link
-              to="/admin-panel"
-              className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
-            >
-              Admin Panel
-            </Link>
-          </div>
-        );
-      default:
-        return null;
-    }
-  };
 
   return (
     <div className="">
@@ -177,11 +124,44 @@ const MyProfile = () => {
               <span className="font-semibold text-gray-700">Manager:</span> {manager}
             </p>
           </div>
+
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Leave Balance</h3>
+            <div className="grid grid-cols-1 gap-2">
+              <p className="mb-2">
+                <span className="font-semibold text-gray-700">Casual Leave:</span> {user.leaveBalance.casualLeave}
+              </p>
+              <p className="mb-2">
+                <span className="font-semibold text-gray-700">Sick Leave:</span> {user.leaveBalance.sickLeave}
+              </p>
+              <p className="mb-2">
+                <span className="font-semibold text-gray-700">Paid Leave:</span> {user.leaveBalance.paidLeave}
+              </p>
+              <p className="mb-2">
+                <span className="font-semibold text-gray-700">Work From Home:</span> {user.leaveBalance.workFromHome}
+              </p>
+            </div>
+          </div>
+          <div className="mt-6">
+            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Team/Projects</h3>
+            <ul className=" grid grid-cols-1 gap-2 list-disc list-inside text-gray-700">
+              {user.teamProject.map((project, index) => (
+                <li key={index}>
+                  <Link
+                    to={`team-detail/${project}`}
+                    className="text-indigo-500 hover:underline"
+                  >
+                    {/* {console.log({"projectName: ": project})} */}
+                    {project}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
-        {renderRoleSpecificContent()}
       </div>
     </div>
   );
 };
 
-export default MyProfile;
+export default EmployeeProfile;

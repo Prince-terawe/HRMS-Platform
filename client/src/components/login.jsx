@@ -29,7 +29,7 @@ const Login = () => {
       // localStorage.setItem('role', role);
 
       // Optionally, redirect to a protected route
-      navigate('/');
+      navigate('/myProfile');
     } catch (error) {
       console.error('Login error:', error);
       alert('Invalid email or password');

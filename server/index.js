@@ -21,6 +21,10 @@ app.use(cors()); // Ensure CORS is enabled before routes
 app.use(express.json());
 app.use(bodyParser.json());
 
+// const teamLeaves = require('./routes/teams/teamLeaves');
+// app.use('/api/teamLeaves', teamLeaves);
+
+
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/leaveApi/leaves', leaveRoutes);

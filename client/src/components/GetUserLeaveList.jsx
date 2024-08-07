@@ -34,7 +34,7 @@ const UserLeaveList = () => {
   }, [id]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gradient-to-br from-green-400 to-blue-600 p-4">
+    <div className="">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 transform transition duration-500 hover:scale-105">
         <h2 className="text-3xl font-bold text-center text-indigo-700 mb-6">
           User Leave List
@@ -45,33 +45,45 @@ const UserLeaveList = () => {
           </div>
         )}
         {leaveList ? (
-          <ul className="list-disc list-inside text-gray-700">
-            {leaveList.map((leave, index) => (
-              <li key={index} className="mb-2">
-                <span className="font-semibold">Type:</span> {leave.leaveType} <br />
-                <span className="font-semibold">Start Date:</span> {new Date(leave.startDate).toLocaleDateString()} <br />
-                <span className="font-semibold">End Date:</span> {new Date(leave.endDate).toLocaleDateString()} <br />
-                <span className="font-semibold">Status:</span> {leave.status} <br />
-                <Link
-                  to={`/leaveDetails/${leave.id}`}
-                  className="text-indigo-500 hover:underline"
-                >
-                  View Details
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <ul className="grid grid-cols-2 gap-6 list-disc list-inside text-gray-700">
+          {leaveList.map((leave, index) => (
+            <li
+              key={index}
+              className="p-4 bg-white shadow rounded-lg hover:shadow-lg transition-shadow duration-200"
+            >
+              <div className="mb-2">
+                <span className="font-semibold text-gray-900">Type:</span> {leave.leaveType}
+              </div>
+              <div className="mb-2">
+                <span className="font-semibold text-gray-900">Start Date:</span> {new Date(leave.startDate).toLocaleDateString()}
+              </div>
+              <div className="mb-2">
+                <span className="font-semibold text-gray-900">End Date:</span> {new Date(leave.endDate).toLocaleDateString()}
+              </div>
+              <div className="mb-2">
+                <span className="font-semibold text-gray-900">Status:</span> {leave.status}
+              </div>
+              <Link
+                to={`leave-details/${leave._id}`}
+                className="inline-block mt-2 text-indigo-500 hover:underline"
+              >
+                View Details
+              </Link>
+            </li>
+          ))}
+        </ul>
+        
         ) : (
           <div className="text-center text-gray-500">Loading...</div>
         )}
-        <div className="mt-6">
+        {/* <div className="mt-6">
           <Link
             to="/apply-leave"
             className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
           >
             Apply for Leave
           </Link>
-        </div>
+        </div> */}
       </div>
     </div>
   );

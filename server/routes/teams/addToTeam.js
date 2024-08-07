@@ -15,8 +15,8 @@ router.put('/:id', authenticate, checkPermission(['viewAny', 'manageAny']), asyn
             return res.status(404).json({ error: 'User not found' });
         }
 
-        if (!user.teamProject.includes(projectName)) {
-            user.teamProject.push(projectName);
+        if (!user.teamProject.projectName.includes(projectName)) {
+            user.teamProject.projectName.push(projectName);
             await user.save();
         }
 

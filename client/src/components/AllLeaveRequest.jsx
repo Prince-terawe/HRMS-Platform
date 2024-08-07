@@ -1,15 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const AllLeaveRequests = () => {
   const [leaves, setLeaves] = useState([]);
   const [error, setError] = useState('');
-  // eslint-disable-next-line
   const [role, setRole] = useState('');
-  // eslint-disable-next-line
   const [userId, setUserId] = useState('');
-  // eslint-disable-next-line
-  const [user, setUser]= useState([]);
+  const [user, setUser] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch user profile from the backend
@@ -71,44 +69,41 @@ const AllLeaveRequests = () => {
     }
   };
 
+  const handleCardClick = (leaveId) => {
+    navigate(`/leaveDetails/${leaveId}`);
+  };
+
   if (error) {
     return <div className="text-red-500">{error}</div>;
   }
 
+  if (leaves.length === 0) {
+    return <div className="text-center text-gray-500">Loading...</div>;
+  }
+
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-4">
-      <h2 className="text-2xl font-bold mb-6">All Leave Requests</h2>
-      <div className="w-full max-w-4xl bg-white shadow-md rounded-lg overflow-hidden">
-        <table className="min-w-full bg-white">
-          <thead className="bg-gray-800 text-white">
-            <tr>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Employee ID</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Leave Type</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Number of Days</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Start Date</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">End Date</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Reason</th>
-              <th className="py-3 px-4 uppercase font-semibold text-sm">Status</th>
-            </tr>
-          </thead>
-          <tbody className="text-gray-700">
-            {leaves.map((leave) => (
-                <tr key={leave._id} className="bg-gray-200">
-                  <td className="py-3 px-4">
-                    <Link to={`/userDetails/${leave.connectionId}`} className="text-blue-500 hover:underline">
-                      {leave.empId}
-                    </Link>
-                  </td>
-                  <td className="py-3 px-4">{leave.leaveType}</td>
-                  <td className="py-3 px-4">{leave.numberOfDays}</td>
-                  <td className="py-3 px-4">{new Date(leave.startDate).toLocaleDateString()}</td>
-                  <td className="py-3 px-4">{new Date(leave.endDate).toLocaleDateString()}</td>
-                  <td className="py-3 px-4">{leave.reason}</td>
-                  <td className={`py-3 px-4 ${getLeaveStatusClass(leave.status)}`}>{leave.status}</td>
-                </tr>
-              ))}
-          </tbody>
-        </table>
+    <div className="container mx-auto px-4">
+      <h2 className="text-2xl font-bold mb-4">All Leave Requests</h2>
+      <div className="grid grid-cols-1 gap-4">
+        {leaves.map((leave) => (
+          <div
+            key={leave._id}
+            className="border p-4 rounded shadow flex items-center cursor-pointer"
+            onClick={() => handleCardClick(leave._id)}
+          >
+            <div className="flex-grow">
+              <Link to={`/userDetails/${leave.connectionId}`} className="text-blue-500 hover:underline">
+                <h3 className="text-xl font-bold">{leave.empId}</h3>
+              </Link>
+              <p>Leave Type: {leave.leaveType}</p>
+              <p>Number of Days: {leave.numberOfDays}</p>
+              <p>Start Date: {new Date(leave.startDate).toLocaleDateString()}</p>
+              <p>End Date: {new Date(leave.endDate).toLocaleDateString()}</p>
+              <p>Reason: {leave.reason}</p>
+              <p className={`font-semibold ${getLeaveStatusClass(leave.status)}`}>Status: {leave.status}</p>
+            </div>
+          </div>
+        ))}
       </div>
     </div>
   );

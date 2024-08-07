@@ -41,7 +41,7 @@ const ApplyLeave = () => {
 
       setMessage(data.msg);
       window.alert(data.msg); 
-      navigate('/');
+      navigate('/employee-dashboard/employee-profile');
     } catch (error) {
       setMessage(error.message);
       window.alert(error.message); 

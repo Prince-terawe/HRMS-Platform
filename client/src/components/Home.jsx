@@ -5,7 +5,7 @@ import Logout from './logout';
 
 const Home = () => {
   const userId = localStorage.getItem('userId');
-  
+  // const teamProjectId = 'yourTeamProjectId';
 
   return (
     <div className="p-6 min-h-screen flex flex-col items-center justify-center bg-gray-100">
