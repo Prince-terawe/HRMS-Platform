@@ -23,7 +23,7 @@ const UserDetails = () => {
         }
         const data = await response.json();
         setUser(data);
-        setProjects(data.teamProject);
+        setProjects(data.teamProject || []);
 
         if (data.manager) {
           const managerResponse = await fetch(`http://localhost:5000/api/users/getUserById/${data.manager}`, {
@@ -85,12 +85,15 @@ const UserDetails = () => {
             <PlusIcon className="w-5 h-5 mr-2" />
             Add User To New Team
           </button>
-          <h3 className="text-xl font-semibold mt-4">Teams</h3>
+          <h3 className="text-xl font-semibold mt-4">Team Projects</h3>
           <ul className="list-disc pl-5">
             {projects.map((project, index) => (
               <li key={index}>
-                <Link to={`/hr-dashboard/teamDetails/${project}`} className="text-blue-500 hover:underline">
-                  {project}
+                <Link 
+                  to={`/hr-dashboard/teamDetails/${project.projectName}`} 
+                  className="text-blue-500 hover:underline"
+                >
+                  {project.projectName} - {project.projectLead.name}
                 </Link>
               </li>
             ))}

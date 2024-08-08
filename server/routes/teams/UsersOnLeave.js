@@ -12,23 +12,25 @@ router.get('/:projectName', authenticate, checkPermission(['viewAny', 'viewTeam'
     today.setHours(0, 0, 0, 0); // Ensure the comparison is done at the start of the day
 
     try {
-        const usersOnLeave = await Leave.find({
+        // Find all leaves that are currently active
+        const leaves = await Leave.find({
             startDate: { $lte: today },
             endDate: { $gte: today },
             status: 'approved'
         }).populate({
-            path: 'connectionId',
-            match: { teamProject: projectName },
+            path: 'userId', // Ensure this matches your Leave model
+            match: { 'teamProject.projectName': projectName }, // Query for projectName in teamProject array
             select: 'empname email teamProject'
         }).exec();
 
+        // Create a unique list of users
         const uniqueUsersSet = new Set();
         const users = [];
 
-        usersOnLeave.forEach(leave => {
-            if (leave.connectionId && !uniqueUsersSet.has(leave.connectionId._id.toString())) {
-                uniqueUsersSet.add(leave.connectionId._id.toString());
-                users.push(leave.connectionId);
+        leaves.forEach(leave => {
+            if (leave.userId && !uniqueUsersSet.has(leave.userId._id.toString())) {
+                uniqueUsersSet.add(leave.userId._id.toString());
+                users.push(leave.userId);
             }
         });
 

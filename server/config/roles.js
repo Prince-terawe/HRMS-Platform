@@ -4,7 +4,7 @@ const roles = {
       inherits: ['HR'],
     },
     HR: {
-      can: ['manageLeave', 'viewAny', 'updateAny'],
+      can: ['manageLeave', 'viewAny', 'updateAny','manageAny'],
       inherits: ['Manager'],
     },
     Manager: {

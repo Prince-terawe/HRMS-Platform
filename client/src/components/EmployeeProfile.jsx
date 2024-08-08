@@ -1,10 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-// import { Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const EmployeeProfile = () => {
-  // const { id } = useParams();
-
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [manager, setManager] = useState("");
@@ -12,27 +9,23 @@ const EmployeeProfile = () => {
   useEffect(() => {
     const fetchUserProfile = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/users/userProfile",
-          {
-            headers: {
-              "Content-Type": "application/json",
-              "Authorization": `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch("http://localhost:5000/api/users/userProfile", {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         const data = await response.json();
         if (!response.ok) {
           throw new Error(data.message || "Failed to fetch user profile");
         }
         setUser(data);
-        // console.log({"employee data": user})
 
         if (data.manager) {
           fetchManager(data.manager);
         } else {
-          setManager(null);
+          setManager("No Manager Assigned");
         }
       } catch (err) {
         console.error("Error fetching user profile:", err);
@@ -42,23 +35,20 @@ const EmployeeProfile = () => {
 
     const fetchManager = async (managerId) => {
       try {
-        const response = await fetch(
-          `http://localhost:5000/api/users/getUserById/${managerId}`,
-          {
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
-        );
+        const response = await fetch(`http://localhost:5000/api/users/getUserById/${managerId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`,
+          },
+        });
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || "Failed to fetch manager name");
+          throw new Error(data.message || "Failed to fetch manager details");
         }
         setManager(`${data.profile.firstName} ${data.profile.lastName}`);
       } catch (err) {
-        console.error("Error fetching manager name:", err);
+        console.error("Error fetching manager details:", err);
         setError(err.message);
       }
     };
@@ -67,7 +57,7 @@ const EmployeeProfile = () => {
   }, []);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center">{error}</div>;
   }
 
   if (!user) {
@@ -75,7 +65,7 @@ const EmployeeProfile = () => {
   }
 
   return (
-    <div className="">
+    <div className="container mx-auto px-4">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 transform transition duration-500 hover:scale-105">
         <div className="flex items-center mb-6">
           <img
@@ -90,7 +80,7 @@ const EmployeeProfile = () => {
             <p className="text-gray-600">{user.position}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4 text-indigo-600">Personal Information</h3>
             <p className="mb-2">
@@ -124,40 +114,39 @@ const EmployeeProfile = () => {
               <span className="font-semibold text-gray-700">Manager:</span> {manager}
             </p>
           </div>
-
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Leave Balance</h3>
-            <div className="grid grid-cols-1 gap-2">
-              <p className="mb-2">
-                <span className="font-semibold text-gray-700">Casual Leave:</span> {user.leaveBalance.casualLeave}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold text-gray-700">Sick Leave:</span> {user.leaveBalance.sickLeave}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold text-gray-700">Paid Leave:</span> {user.leaveBalance.paidLeave}
-              </p>
-              <p className="mb-2">
-                <span className="font-semibold text-gray-700">Work From Home:</span> {user.leaveBalance.workFromHome}
-              </p>
-            </div>
+        </div>
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-4 text-indigo-600">Leave Balance</h3>
+          <div className="grid grid-cols-1 gap-2">
+            <p className="mb-2">
+              <span className="font-semibold text-gray-700">Casual Leave:</span> {user.leaveBalance.casualLeave}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold text-gray-700">Sick Leave:</span> {user.leaveBalance.sickLeave}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold text-gray-700">Paid Leave:</span> {user.leaveBalance.paidLeave}
+            </p>
+            <p className="mb-2">
+              <span className="font-semibold text-gray-700">Work From Home:</span> {user.leaveBalance.workFromHome}
+            </p>
           </div>
-          <div className="mt-6">
-            <h3 className="text-lg font-semibold mb-4 text-indigo-600">Team/Projects</h3>
-            <ul className=" grid grid-cols-1 gap-2 list-disc list-inside text-gray-700">
-              {user.teamProject.map((project, index) => (
-                <li key={index}>
-                  <Link
-                    to={`team-detail/${project}`}
-                    className="text-indigo-500 hover:underline"
-                  >
-                    {/* {console.log({"projectName: ": project})} */}
-                    {project}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
+        </div>
+        <div className="mt-6">
+          <h3 className="text-lg font-semibold mb-4 text-indigo-600">Team/Projects</h3>
+          <ul className="grid grid-cols-1 gap-2 list-disc list-inside text-gray-700">
+            {user.teamProject.map((project, index) => (
+              <li key={index}>
+                <Link 
+                  to={`/hr-dashboard/team-detail/${project.projectName}`} 
+                  className="text-indigo-500 hover:underline"
+                >
+                  {project.projectName}
+                </Link>
+                <span> (Lead: {project.projectLead.name})</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
     </div>

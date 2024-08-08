@@ -1,0 +1,27 @@
+[
+    {
+        "projectName": "Project Alpha",
+        "projectLead": {
+            "id": "64e64c8f4b4534a1b47e1a60",
+            "name": "Jane Smith",
+            "email": "jane.smith@example.com"
+        }
+    },
+    {
+        "projectName": "Project Beta",
+        "projectLead": {
+            "id": "64e64c8f4b4534a1b47e1a61",
+            "name": "Alice Johnson",
+            "email": "alice.johnson@example.com"
+        }
+    },
+    {
+        "projectName": "Project Gamma",
+        "projectLead": {
+            "id": "64e64c8f4b4534a1b47e1a63",
+            "name": "Bob Williams",
+            "email": "bob.williams@example.com"
+        }
+    }
+]
+  

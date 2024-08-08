@@ -19,9 +19,9 @@ const UpdateUser = () => {
   const [departments] = useState(['d1', 'd2', 'd3', 'd4']);
   const [positions] = useState(['p1', 'p2', 'p3', 'p4']);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Fetch current user data
     const fetchUser = async () => {
       try {
         const response = await fetch(`http://localhost:5000/api/users/getUserById/${id}`, {
@@ -30,11 +30,10 @@ const UpdateUser = () => {
           }
         });
         if (!response.ok) {
-          throw new Error('Network response was not ok he he he');
+          throw new Error('Failed to fetch user data');
         }
 
         const data = await response.json();
-        // console.log({"user data": data})
         setFormData({
           phoneNumber: data.profile.phoneNumber || '',
           email: data.email || '',
@@ -44,21 +43,22 @@ const UpdateUser = () => {
           position: data.position || '',
         });
       } catch (error) {
-        console.error('Error fetching user:', error);
+        setErrors(prevErrors => ({ ...prevErrors, fetchUser: error.message }));
+      } finally {
+        setLoading(false);
       }
     };
 
-    // Fetch managers
     const fetchManagers = async () => {
       try {
         const response = await fetch('http://localhost:5000/api/users/managers/manager');
         if (!response.ok) {
-          throw new Error('Network response was not ok');
+          throw new Error('Failed to fetch managers');
         }
         const data = await response.json();
         setManagers(data);
       } catch (error) {
-        console.error('Error fetching managers:', error);
+        setErrors(prevErrors => ({ ...prevErrors, fetchManagers: error.message }));
       }
     };
 
@@ -72,6 +72,7 @@ const UpdateUser = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrors({});
     try {
       const response = await fetch(`http://localhost:5000/api/users/${id}`, {
         method: 'PUT',
@@ -84,19 +85,25 @@ const UpdateUser = () => {
       const data = await response.json();
       if (response.ok) {
         alert(data.msg);
-        navigate(`/hr-dashboard/allUsers/userDetails/${id}`); // Redirect to home page or another route
+        navigate(`/hr-dashboard/allUsers/userDetails/${id}`);
       } else {
-        setErrors(data.errors || {});
-        alert(data.error);
+        setErrors(data.errors || { server: data.error });
       }
     } catch (error) {
-      console.error('Error:', error);
+      setErrors(prevErrors => ({ ...prevErrors, submit: error.message }));
     }
   };
 
+  if (loading) {
+    return <div className="text-center text-gray-500 mt-4">Loading...</div>;
+  }
+
   return (
-    <div className="container mx-auto px-4">
+    <div className="container mx-auto px-4 py-6">
       <h2 className="text-2xl font-bold mb-4">Update Employee</h2>
+      {errors.fetchUser && <div className="text-red-500 mb-4">Error fetching user: {errors.fetchUser}</div>}
+      {errors.fetchManagers && <div className="text-red-500 mb-4">Error fetching managers: {errors.fetchManagers}</div>}
+      {errors.submit && <div className="text-red-500 mb-4">Error updating user: {errors.submit}</div>}
       <form onSubmit={handleSubmit} className="space-y-4">
         <input
           type="text"
@@ -168,7 +175,7 @@ const UpdateUser = () => {
         </select>
         <button
           type="submit"
-          className="w-full p-2 bg-blue-500 text-white rounded"
+          className="w-full p-2 bg-blue-500 text-white rounded hover:bg-blue-600 transition duration-300"
         >
           Update Employee
         </button>

@@ -6,11 +6,20 @@ const userSchema = new Schema({
     empId: {type: String,required: true,unique: true,},
     empname: {type: String},
     password: {type: String,required: true,},
-    email: {type: String,required: true,unique: true},
+    email: {type: String, required: true, unique: true},
     role: {type: String, default: 'Employee'},
-    department: {type: String,required: true},
-    teamProject: { type: [String], default: [] },
-    manager: {type: mongoose.Schema.Types.ObjectId,ref: 'User'},
+    department: {type: String, required: true},
+    teamProject: [
+        {
+          projectName: { type: String},
+          projectLead: { 
+            id: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
+            name: {type: String},
+            email: {type: String}
+          }
+        }
+    ],
+    manager: {type: mongoose.Schema.Types.ObjectId, ref: 'User'},
     leaveBalance: {
         casualLeave: {type: Number,default: 12},
         sickLeave: {type: Number,default: 12},

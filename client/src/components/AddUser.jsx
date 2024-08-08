@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import teamProjectsData from '../config/teamProject.json'; // Import the JSON data
 
 const AddUser = () => {
   const [formData, setFormData] = useState({
@@ -11,20 +12,21 @@ const AddUser = () => {
     empId: "",
     password: "",
     email: "",
-    // role: '',
-    // department: '',
-    // position: '',
+    role: "",
+    department: "",
+    position: "",
     hireDate: "",
-    // manager: '',
-    // profileImage: '',
-    // teamProjects: '',
+    teamProjects: [], // Update to an array
+    manager: "",
   });
+
+  // console.log(teamProjectsData);
 
   const [managers, setManagers] = useState([]);
   const [roles] = useState(["Employee", "Manager", "HR", "Admin"]);
   const [departments] = useState(["d1", "d2", "d3", "d4"]);
   const [positions] = useState(["p1", "p2", "p3", "p4"]);
-  const [teams] = useState(["team1", "team2", "team3", "team4"]);
+  const [teamProjects] = useState(teamProjectsData); // Set team projects from JSON
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -38,7 +40,6 @@ const AddUser = () => {
           throw new Error("Network response was not ok");
         }
         const data = await response.json();
-        console.log(data);
         setManagers(data);
       } catch (error) {
         console.error("Error fetching managers:", error);
@@ -48,7 +49,13 @@ const AddUser = () => {
   }, []);
 
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    if (name === "teamProjects") {
+      const selectedProjects = Array.from(e.target.selectedOptions, (option) => JSON.parse(option.value));
+      setFormData({ ...formData, teamProjects: selectedProjects });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const [errors, setErrors] = useState({});
@@ -194,14 +201,14 @@ const AddUser = () => {
         />
         <select
           name="teamProjects"
-          value={formData.teamProjects}
+          value={formData.teamProjects.map(project => JSON.stringify(project))}
           onChange={handleChange}
           className="w-7/12 p-2 border border-gray-300 rounded"
         >
-          <option value="">Select Team Project</option>
-          {teams.map((team) => (
-            <option key={team} value={team}>
-              {team}
+          <option value="">Select Team Projects</option>
+          {teamProjects.map((project) => (
+            <option key={project.projectName} value={JSON.stringify(project)}>
+              {project.projectName} - {project.projectLead.name}
             </option>
           ))}
         </select>

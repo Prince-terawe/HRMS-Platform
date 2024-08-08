@@ -14,9 +14,18 @@ router.put('/:id', authenticate, checkPermission(['manageTeam']), async (req, re
         if (!user) {
             return res.status(404).json({ error: 'User not found' });
         }
-        
-        if(!user.teamProject.includes(projectName)) res.json("User is not enrolled in this Project.");
-        user.teamProject = user.teamProject.filter(project => project !== projectName);
+
+        // Find the index of the project to remove
+        const projectIndex = user.teamProject.findIndex(
+            project => project.projectName === projectName
+        );
+
+        if (projectIndex === -1) {
+            return res.status(404).json({ error: "User is not enrolled in this project." });
+        }
+
+        // Remove the project
+        user.teamProject.splice(projectIndex, 1);
         await user.save();
 
         res.json({ msg: 'User removed from the team', user });

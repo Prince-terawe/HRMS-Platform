@@ -66,11 +66,11 @@ const EmployeeDashboard = () => {
   }, []);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center mt-4">{error}</div>;
   }
 
   if (!user) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <div className="text-center text-gray-500 mt-4">Loading...</div>;
   }
 
   const isActive = (path) => location.pathname.includes(path);
@@ -93,8 +93,7 @@ const EmployeeDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to="employee-profile"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('my-profile') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('employee-profile') ? 'bg-gray-700' : ''}`}
               >
                 <FaUser className="mr-2" />
                 User Details
@@ -103,8 +102,7 @@ const EmployeeDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to="team-projects"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('team-projects') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('team-projects') ? 'bg-gray-700' : ''}`}
               >
                 <FaUsers className="mr-2" />
                 Teams/Projects
@@ -113,8 +111,7 @@ const EmployeeDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to={`leaveList/${user._id}`}
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('leaveList') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('leaveList') ? 'bg-gray-700' : ''}`}
               >
                 <FaHistory className="mr-2" />
                 Leave History
@@ -123,8 +120,7 @@ const EmployeeDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to="apply-leave"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('apply-leave') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('apply-leave') ? 'bg-gray-700' : ''}`}
               >
                 <FaPlus className="mr-2" />
                 Apply for Leave

@@ -1,9 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const MyProfile = () => {
-  // const { id } = useParams();
-
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [manager, setManager] = useState("");
@@ -30,7 +28,7 @@ const MyProfile = () => {
         if (data.manager) {
           fetchManager(data.manager);
         } else {
-          setManager(null);
+          setManager("No Manager Assigned");
         }
       } catch (err) {
         console.error("Error fetching user profile:", err);
@@ -45,18 +43,18 @@ const MyProfile = () => {
           {
             headers: {
               "Content-Type": "application/json",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
+              "Authorization": `Bearer ${localStorage.getItem("token")}`,
             },
           }
         );
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || "Failed to fetch manager name");
+          throw new Error(data.message || "Failed to fetch manager details");
         }
         setManager(`${data.profile.firstName} ${data.profile.lastName}`);
       } catch (err) {
-        console.error("Error fetching manager name:", err);
+        console.error("Error fetching manager details:", err);
         setError(err.message);
       }
     };
@@ -65,11 +63,11 @@ const MyProfile = () => {
   }, []);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center mt-4">{error}</div>;
   }
 
   if (!user) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <div className="text-center text-gray-500 mt-4">Loading...</div>;
   }
 
   const renderRoleSpecificContent = () => {
@@ -82,7 +80,7 @@ const MyProfile = () => {
               to="/employee-dashboard"
               className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
             >
-              Dasboard
+              Dashboard
             </Link>
           </div>
         );
@@ -103,7 +101,7 @@ const MyProfile = () => {
           <div className="mt-6">
             <h3 className="text-lg font-semibold mb-4 text-indigo-600">HR Management</h3>
             <Link
-              to="/hr-dashboard"
+              to="/hr-dashboard/allUsers"
               className="inline-block bg-indigo-500 hover:bg-indigo-700 text-white font-semibold py-2 px-4 rounded transition duration-300"
             >
               HR Dashboard
@@ -128,7 +126,7 @@ const MyProfile = () => {
   };
 
   return (
-    <div className="">
+    <div className="container mx-auto px-4">
       <div className="w-full max-w-4xl bg-white shadow-lg rounded-lg p-6 transform transition duration-500 hover:scale-105">
         <div className="flex items-center mb-6">
           <img
@@ -143,7 +141,7 @@ const MyProfile = () => {
             <p className="text-gray-600">{user.position}</p>
           </div>
         </div>
-        <div className="grid grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <div>
             <h3 className="text-lg font-semibold mb-4 text-indigo-600">Personal Information</h3>
             <p className="mb-2">

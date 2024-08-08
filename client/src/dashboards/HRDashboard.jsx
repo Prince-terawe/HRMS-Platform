@@ -29,18 +29,19 @@ const HRDashboard = () => {
         setUser(data);
       } catch (err) {
         console.error("Error fetching user profile:", err);
-        setError(err.message);
+        setError("Unable to load user profile. Please try again later.");
       }
     };
+
     fetchUserProfile();
   }, []);
 
   if (error) {
-    return <div className="text-red-500">{error}</div>;
+    return <div className="text-red-500 text-center mt-4">{error}</div>;
   }
 
   if (!user) {
-    return <div className="text-center text-gray-500">Loading...</div>;
+    return <div className="text-center text-gray-500 mt-4">Loading...</div>;
   }
 
   const isActive = (path) => location.pathname.includes(path);
@@ -63,8 +64,7 @@ const HRDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to="allUsers"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('allUsers') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('allUsers') ? 'bg-gray-700' : ''}`}
               >
                 <FaUsers className="mr-2" />
                 Employee Management
@@ -73,8 +73,7 @@ const HRDashboard = () => {
             <li className="w-full mb-2">
               <Link
                 to="all-leave"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('all-leave') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('all-leave') ? 'bg-gray-700' : ''}`}
               >
                 <FaClipboardList className="mr-2" />
                 Leave Management
@@ -83,8 +82,7 @@ const HRDashboard = () => {
             {/* <li className="w-full mb-2">
               <Link
                 to="reports-analytics"
-                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('reports-analytics') ? 'bg-gray-700' : ''
-                  }`}
+                className={`flex items-center px-4 py-2 w-full hover:bg-gray-700 ${isActive('reports-analytics') ? 'bg-gray-700' : ''}`}
               >
                 <FaChartBar className="mr-2" />
                 Reports and Analytics
