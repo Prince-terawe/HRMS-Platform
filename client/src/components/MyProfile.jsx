@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const MyProfile = () => {
   const [user, setUser] = useState(null);
   const [error, setError] = useState("");
   const [manager, setManager] = useState("");
+  const navigate = useNavigate();
+
 
   useEffect(() => {
     const fetchUserProfile = async () => {
@@ -21,7 +23,8 @@ const MyProfile = () => {
 
         const data = await response.json();
         if (!response.ok) {
-          throw new Error(data.message || "Failed to fetch user profile");
+          navigate('/login');
+          throw new Error(data.message || "Need to login first");
         }
         setUser(data);
 

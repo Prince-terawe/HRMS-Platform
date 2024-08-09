@@ -1,43 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-
-// Sample data URL; adjust the path according to your project structure
-const PROJECT_DATA_URL = '../config/teamProject.json';
+import teamProjectsData from '../config/teamProject.json'; // Import the JSON data directly
 
 const AddUserToTeam = () => {
   const [projects, setProjects] = useState([]);
-  const [projectName, setProjectName] = useState('');
-  const [projectLead, setProjectLead] = useState('');
+  const [selectedProject, setSelectedProject] = useState(null);
   const [message, setMessage] = useState('');
   const { id } = useParams();
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch project data from the JSON file
-    const fetchProjects = async () => {
-      try {
-        const response = await fetch(PROJECT_DATA_URL);
-        const data = await response.json();
-        setProjects(data);
-      } catch (error) {
-        console.error('Error fetching project data:', error);
-        setMessage('Error fetching project data');
-      }
-    };
-
-    fetchProjects();
+    // Directly set the imported JSON data to state
+    setProjects(teamProjectsData);
   }, []);
 
   const handleAddUserToTeam = async (e) => {
     e.preventDefault();
     try {
-      // Construct the form data object
+      if (!selectedProject) {
+        setMessage('Please select a project.');
+        return;
+      }
+
       const formData = {
-        projectName,
-        projectLead,
+        projectName: selectedProject.projectName,
+        projectLead: selectedProject.projectLead,
       };
 
-      // Send the request to add user to the team
       const response = await fetch(`http://localhost:5000/api/teams/addUserToTeam/${id}`, {
         method: 'PUT',
         headers: {
@@ -50,10 +39,7 @@ const AddUserToTeam = () => {
       const data = await response.json();
       if (response.ok) {
         setMessage('User added to team successfully');
-        // Optionally clear the form fields
-        setProjectName('');
-        setProjectLead('');
-        // Redirect to user details or another page
+        setSelectedProject(null);
         navigate(`/hr-dashboard/allUsers/userDetails/${id}`);
       } else {
         setMessage(`Error: ${data.error}`);
@@ -70,11 +56,10 @@ const AddUserToTeam = () => {
         <div className="mb-4">
           <label className="block mb-2">Project Name</label>
           <select
-            value={projectName}
+            value={selectedProject?.projectName || ''}
             onChange={(e) => {
-              const selectedProject = projects.find(p => p.projectName === e.target.value);
-              setProjectName(e.target.value);
-              setProjectLead(selectedProject?.projectLead.id || '');
+              const project = projects.find(p => p.projectName === e.target.value);
+              setSelectedProject(project || null);
             }}
             className="border p-2 w-full"
             required
@@ -88,10 +73,10 @@ const AddUserToTeam = () => {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block mb-2">Project Lead ID</label>
+          <label className="block mb-2">Project Lead</label>
           <input
             type="text"
-            value={projectLead}
+            value={selectedProject?.projectLead.name || ''}
             readOnly
             className="border p-2 w-full bg-gray-200"
           />

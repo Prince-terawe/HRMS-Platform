@@ -8,11 +8,12 @@ const checkPermission = require('../../middleware/permissions');
 const router = express.Router();
 
 router.post('/', async (req, res) => {
+    console.log(req.body);
     const {
         empId, empname, password, email, role, department, position, hireDate, manager,
         firstName, dateOfBirth, phoneNumber, lastName, address, profileImage, teamProject
     } = req.body;
-    console.log(empname);
+    // console.log(empname);
     let emptyFields = [];
 
     if (!empId) emptyFields.push('empId');
@@ -25,17 +26,17 @@ router.post('/', async (req, res) => {
     if (!firstName) emptyFields.push('firstName');
     if (!dateOfBirth) emptyFields.push('dateOfBirth');
     if (!phoneNumber) emptyFields.push('phoneNumber');
-
     if (emptyFields.length > 0) {
         return res.status(400).json({ error: 'Please fill all the required fields', emptyFields });
     }
-
+    
     try {
         const errors = await validateUser({ empname, email, empId });
-        if (Object.keys(errors).length > 0) {
-            return res.status(400).json({ errors });
-        }
-
+        // console.log(errors, 'sssssssssssss')
+        // if (Object.keys(errors).length > 0) {
+        //     return res.status(400).json({ errors });
+        // }
+       
         // Hash the password
         const salt = await bcrypt.genSalt(10);
         const hashedPassword = await bcrypt.hash(password, salt);
@@ -62,11 +63,13 @@ router.post('/', async (req, res) => {
                 address
             },
         });
+        // console.log(newUser, 'uuuuuuuuuuuuuuuuuu')
 
         const user = await newUser.save();
         res.json({ msg: "Employee added successfully!", user });
     } catch (error) {
-        res.status(500).json({ error: "Unable to add Employeessssssss", details: error.message });
+        console.log(error)
+        // res.status(500).json({ error: "Unable to add Employeessssssss", details: error.message });
     }
 });
 

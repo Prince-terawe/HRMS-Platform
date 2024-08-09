@@ -9,7 +9,7 @@ const UpdateUser = () => {
     phoneNumber: '',
     email: '',
     role: '',
-    manager: '',
+    manager: null,
     department: '',
     position: ''
   });
@@ -38,7 +38,7 @@ const UpdateUser = () => {
           phoneNumber: data.profile.phoneNumber || '',
           email: data.email || '',
           role: data.role || '',
-          manager: data.manager || '',
+          manager: data.manager || null,
           department: data.department || '',
           position: data.position || '',
         });

@@ -16,12 +16,9 @@ const AddUser = () => {
     department: "",
     position: "",
     hireDate: "",
-    teamProjects: [], // Update to an array
-    manager: "",
+    teamProject: [], // Update to an array
+    // manager: '', // Manager field
   });
-
-  // console.log(teamProjectsData);
-
   const [managers, setManagers] = useState([]);
   const [roles] = useState(["Employee", "Manager", "HR", "Admin"]);
   const [departments] = useState(["d1", "d2", "d3", "d4"]);
@@ -30,12 +27,9 @@ const AddUser = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch managers from the backend
     const fetchManagers = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:5000/api/users/managers/manager"
-        ); // Update with the actual endpoint
+        const response = await fetch("http://localhost:5000/api/users/managers/manager");
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -50,31 +44,54 @@ const AddUser = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    if (name === "teamProjects") {
-      const selectedProjects = Array.from(e.target.selectedOptions, (option) => JSON.parse(option.value));
-      setFormData({ ...formData, teamProjects: selectedProjects });
+  
+    if (name === "teamProject") {
+      const selectedProject = teamProjects.find(project => project.projectLead.id === value);
+      if (selectedProject) {
+        setFormData(prevState => {
+          const isDuplicate = prevState.teamProject.some(
+            project => project.projectLead.id === selectedProject.projectLead.id
+          );
+  
+          if (!isDuplicate) {
+            return {
+              ...prevState,
+              teamProject: [...prevState.teamProject, selectedProject]
+            };
+          }
+  
+          return prevState; // If duplicate, return the previous state
+        });
+      }
     } else {
       setFormData({ ...formData, [name]: value });
     }
-  };
+  };  
 
   const [errors, setErrors] = useState({});
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const uniqueTeamProjects = Array.from(
+      new Set(formData.teamProject.map(project => JSON.stringify(project)))
+    ).map(project => JSON.parse(project));
+  
+    // Update formData with unique team projects
+    const updatedFormData = { ...formData, teamProject: uniqueTeamProjects };
+
     try {
       const response = await fetch("http://localhost:5000/api/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${localStorage.getItem('token')}`
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
         },
-        body: JSON.stringify(formData),
+        body: JSON.stringify(updatedFormData),
       });
       const data = await response.json();
       if (response.ok) {
         alert(data.msg);
-        navigate("/"); // Redirect to home page or another route
+        navigate("/"); 
       } else {
         setErrors(data.errors || {});
         alert(data.error);
@@ -200,25 +217,33 @@ const AddUser = () => {
           className="w-7/12 p-2 border border-gray-300 rounded"
         />
         <select
-          name="teamProjects"
-          value={formData.teamProjects.map(project => JSON.stringify(project))}
+          name="teamProject"
+          value=""
           onChange={handleChange}
           className="w-7/12 p-2 border border-gray-300 rounded"
         >
           <option value="">Select Team Projects</option>
           {teamProjects.map((project) => (
-            <option key={project.projectName} value={JSON.stringify(project)}>
+            <option key={project.projectLead.id} value={project.projectLead.id}>
               {project.projectName} - {project.projectLead.name}
             </option>
           ))}
         </select>
+
+        <ul className="w-7/12 p-2 border border-gray-300 rounded">
+          {formData.teamProject.map((project, index) => (
+            <li key={index}>
+              {project.projectName} - {project.projectLead.name}
+            </li>
+          ))}
+        </ul>
         <select
           name="manager"
           value={formData.manager}
           onChange={handleChange}
           className="w-7/12 p-2 border border-gray-300 rounded"
         >
-          <option value="">Select Manager</option>
+          <option value={null}>Select Manager</option>
           {managers.map((manager) => (
             <option key={manager._id} value={manager._id}>
               {manager.profile.firstName} {manager.profile.lastName}

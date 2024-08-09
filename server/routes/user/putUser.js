@@ -16,7 +16,7 @@ router.put('/:id', authenticate,  checkPermission(['viewAny']), async (req, res)
             return res.status(404).json({ noUserFound: 'No Employee found' });
         }
 
-        const errors = await validateUser({ empname, email, empId });
+        const errors = await validateUser({ empname, empId });
         if (Object.keys(errors).length > 0) {
             return res.status(400).json({ errors });
         }
